@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Shrigovinda T Kulkarni</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="bg-orb orb-1"></div>
+
+    <nav id="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">SHRIGO<span>.</span></a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="skills.html">Skills</a>
+                <a href="projects.html">Projects</a>
+                <a href="certifications.html">Certs</a>
+                <a href="contact.html" class="active">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="page-content reveal" style="display: block; padding-top: 150px;">
+            <div class="contact-grid">
+                <div>
+                    <header style="margin-bottom: 4rem;">
+                        <span style="color: var(--accent); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4em; display: block; margin-bottom: 1rem;">Inquiry</span>
+                        <h1 class="text-premium" style="font-size: clamp(3rem, 7vw, 5rem); font-black: 900; line-height: 1;">Get in<br>Touch.</h1>
+                    </header>
+
+                    <div style="display: flex; flex-direction: column; gap: 3rem;">
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 1.25rem; border: 1px solid var(--border);">
+                                <i data-lucide="mail" style="color: var(--primary);"></i>
+                            </div>
+                            <div>
+                                <p style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase;">Email</p>
+                                <p style="font-size: 1.15rem; color: #fff; font-weight: 600;">shrigovinda.t.k@gmail.com</p>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 1.25rem; border: 1px solid var(--border);">
+                                <i data-lucide="linkedin" style="color: var(--secondary);"></i>
+                            </div>
+                            <div>
+                                <p style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase;">LinkedIn</p>
+                                <p style="font-size: 1.15rem; color: #fff; font-weight: 600;">Shrigovinda T Kulkarni</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-slab reveal">
+                    <form id="contact-form" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" placeholder="Full Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" placeholder="email@example.com" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea rows="6" placeholder="Tell me about your project..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary" style="justify-content: center; width: 100%;">
+                            Send Message <i data-lucide="send"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="js/firebase-config.js"></script>`n    <script type="module" src="js/main.js"></script>
+</body>
+</html>
+
+
