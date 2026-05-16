@@ -25,6 +25,9 @@
                 <a href="certifications.html">Certs</a>
                 <a href="contact.html" class="active">Contact</a>
             </div>
+            <div class="mobile-toggle md-hidden">
+                <i data-lucide="menu"></i>
+            </div>
         </div>
     </nav>
 
@@ -34,7 +37,7 @@
                 <div>
                     <header style="margin-bottom: 4rem;">
                         <span style="color: var(--accent); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4em; display: block; margin-bottom: 1rem;">Inquiry</span>
-                        <h1 class="text-premium" style="font-size: clamp(3rem, 7vw, 5rem); font-black: 900; line-height: 1;">Get in<br>Touch.</h1>
+                        <h1 class="text-premium" style="font-size: clamp(3rem, 7vw, 5rem); font-weight: 900; line-height: 1;">Get in<br>Touch.</h1>
                     </header>
 
                     <div style="display: flex; flex-direction: column; gap: 3rem;">
@@ -54,7 +57,26 @@
                             </div>
                             <div>
                                 <p style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase;">LinkedIn</p>
-                                <p style="font-size: 1.15rem; color: #fff; font-weight: 600;">Shrigovinda T Kulkarni</p>
+                                <a href="https://www.linkedin.com/in/shrigovinda-kulkarni-299399284/" target="_blank" style="font-size: 1.15rem; color: #fff; font-weight: 600; text-decoration: none;">Shrigovinda T Kulkarni</a>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 1.25rem; border: 1px solid var(--border);">
+                                <i data-lucide="phone" style="color: var(--accent);"></i>
+                            </div>
+                            <div>
+                                <p style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase;">Phone</p>
+                                <p style="font-size: 1.15rem; color: #fff; font-weight: 600;">+91 8618104226</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 1.25rem; border: 1px solid var(--border);">
+                                <i data-lucide="instagram" style="color: #e4405f;"></i>
+                            </div>
+                            <div>
+                                <p style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase;">Instagram</p>
+                                <a href="https://www.instagram.com/shrigovinda_/" target="_blank" style="font-size: 1.15rem; color: #fff; font-weight: 600; text-decoration: none;">@shrigovinda_</a>
                             </div>
                         </div>
                     </div>
@@ -65,16 +87,16 @@
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
                             <div class="form-group">
                                 <label>Name</label>
-                                <input type="text" placeholder="Full Name" required>
+                                <input type="text" name="name" placeholder="Full Name" required>
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="email" placeholder="email@example.com" required>
+                                <input type="email" name="email" placeholder="email@example.com" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Message</label>
-                            <textarea rows="6" placeholder="Tell me about your project..." required></textarea>
+                            <textarea name="message" rows="6" placeholder="Tell me about your project..." required></textarea>
                         </div>
                         <button type="submit" class="btn-primary" style="justify-content: center; width: 100%;">
                             Send Message <i data-lucide="send"></i>

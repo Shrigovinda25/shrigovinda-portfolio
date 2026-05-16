@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Navbar Scroll Effect
     const navbar = document.getElementById('navbar');
+    const mobileToggle = document.querySelector('.mobile-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
     const handleScroll = () => {
         if (window.scrollY > 30) {
             navbar.classList.add('scrolled');
@@ -35,6 +38,20 @@ document.addEventListener('DOMContentLoaded', () => {
             navbar.classList.remove('scrolled');
         }
     };
+
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = mobileToggle.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.setAttribute('data-lucide', 'x');
+            } else {
+                icon.setAttribute('data-lucide', 'menu');
+            }
+            lucide.createIcons();
+        });
+    }
+
     window.addEventListener('scroll', handleScroll);
     handleScroll();
 
@@ -66,9 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = contactForm.querySelector('button');
             const originalText = btn.innerHTML;
             
-            const nameInput = contactForm.querySelector('input[placeholder="Full Name"]');
-            const emailInput = contactForm.querySelector('input[placeholder="email@example.com"]');
-            const messageInput = contactForm.querySelector('textarea');
+            const nameInput = contactForm.querySelector('[name="name"]');
+            const emailInput = contactForm.querySelector('[name="email"]');
+            const messageInput = contactForm.querySelector('[name="message"]');
 
             btn.innerHTML = 'Establishing Secure Connection...';
             btn.disabled = true;
