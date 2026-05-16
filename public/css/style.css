@@ -200,10 +200,13 @@ section {
 
 .btn-premium {
   display: inline-flex;
-  padding: 1.1rem;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border);
-  border-radius: 1.25rem;
+  border-radius: 50%;
   color: #fff;
   transition: all 0.3s ease;
 }
