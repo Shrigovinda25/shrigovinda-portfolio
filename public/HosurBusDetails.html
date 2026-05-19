@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hosur Bus Stand Passengers Portal</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary: #1d3557;
+            --secondary: #457b9d;
+            --accent: #1d3557;
+            --bg-dark: #f1faee;
+            --text: #1d3557;
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(29, 53, 87, 0.15);
+            --card-bg: rgba(29, 53, 87, 0.03);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f7ece1, #f4f1de, #e9e5d9);
+            background-size: 300% 300%;
+            animation: gradientShift 12s ease infinite;
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            background-attachment: fixed;
+            padding-bottom: 50px;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(247, 245, 240, 0.2);
+            z-index: -1;
+        }
+
+        .heads {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            margin: 40px 20px 20px;
+            text-align: center;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 10px rgba(29, 53, 87, 0.12);
+        }
+
+        #container {
+            width: 92%;
+            max-width: 850px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            padding: clamp(20px, 5vw, 40px);
+            border-radius: 24px;
+            border: 2px solid var(--glass-border);
+            box-shadow: 0 20px 50px rgba(29, 53, 87, 0.06);
+            text-align: center;
+        }
+
+        .search-section h1 {
+            font-size: 1.6rem;
+            margin-bottom: 30px;
+            font-weight: 600;
+            color: var(--text);
+            opacity: 0.9;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        select,
+        input[type="text"] {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(29, 53, 87, 0.15);
+            background: rgba(255, 255, 255, 0.7);
+            color: var(--text);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        select:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 15px rgba(29, 53, 87, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #ffffff;
+            box-shadow: 0 0 25px rgba(29, 53, 87, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            border-color: #8d99ae;
+            color: #8d99ae;
+        }
+
+        .btn-secondary:hover {
+            background: #8d99ae;
+            color: #ffffff;
+            box-shadow: 0 0 25px rgba(141, 153, 174, 0.2);
+        }
+
+        /* Result Card Styles */
+        #busDetails {
+            display: none;
+            margin-top: 40px;
+            text-align: left;
+            animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 25px;
+            border: 1px solid rgba(29, 53, 87, 0.08);
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 15px;
+        }
+
+        .result-header h2 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: rgba(29, 53, 87, 0.6);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timings-box {
+            grid-column: 1 / -1;
+            background: rgba(29, 53, 87, 0.04);
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 10px;
+            border: 1px solid rgba(29, 53, 87, 0.06);
+        }
+
+        #message {
+            color: #e63946;
+            margin-top: 20px;
+            font-weight: 500;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(230, 57, 70, 0.08);
+            border: 1px solid rgba(230, 57, 70, 0.15);
+            display: none;
+        }
+
+        .footer-tools {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .translator-container {
+            background: var(--glass-bg);
+            padding: 12px;
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Responsive UI */
+        @media (max-width: 600px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .heads {
+                margin-top: 20px;
+            }
+        }
+
+        select option {
+            background: #eedec9;
+            color: var(--text);
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1 class="heads">Hosur Bus Stand Passengers Portal</h1>
+
+    <div id="container">
+        <div class="search-section">
+            <h1>🚌 Find Your Journey</h1>
+            <div class="input-group">
+                <select id="busDropdown" onchange="copyBusNameToInput()">
+                    <option value="">Quick Select: Available Destinations</option>
+                    <!-- Alphabetized list -->
+                    <option value="Allapura">Allapura</option>
+                    <option value="Annigeri">Annigeri</option>
+                    <option value="Annigeri-Naavalli">Annigeri-Naavalli</option>
+                    <option value="Aralikatti">Aralikatti</option>
+                    <option value="Badageri">Badageri</option>
+                    <option value="Bagalakot">Bagalakot</option>
+                    <option value="Ballur">Ballur</option>
+                    <option value="Bamnahalli-Hangal">Bamnahalli-Hangal</option>
+                    <option value="Basavanakoppa">Basavanakoppa</option>
+                    <option value="Begura">Begura</option>
+                    <option value="Bellary">Bellary</option>
+                    <option value="Betadur">Betadur</option>
+                    <option value="Bommasamudra">Bommasamudra</option>
+                    <option value="Chabbi">Chabbi</option>
+                    <option value="Chavargudd">Chavargudd</option>
+                    <option value="Chittapura">Chittapura</option>
+                    <option value="Devaragudihal">Devaragudihal</option>
+                    <option value="Dr. T school">Dr. T school</option>
+                    <option value="Dummwad">Dummwad</option>
+                    <option value="Gadag">Gadag</option>
+                    <option value="Gadag(Nonstop)">Gadag(Nonstop)</option>
+                    <option value="Gajagatti">Gajagatti</option>
+                    <option value="Gajendragada">Gajendragada</option>
+                    <option value="Gangavati">Gangavati</option>
+                    <option value="Giriyal">Giriyal</option>
+                    <option value="Guruvinahalli">Guruvinahalli</option>
+                    <option value="Haliyal">Haliyal</option>
+                    <option value="Hirehonnihalli">Hirehonnihalli</option>
+                    <option value="Hospet">Hospet</option>
+                    <option value="Hulgur">Hulgur</option>
+                    <option value="Hulakoppa">Hulakoppa</option>
+                    <option value="Humanabadh">Humanabadh</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                    <option value="Ilakal">Ilakal</option>
+                    <option value="Inganalli">Inganalli</option>
+                    <option value="Ingalagi">Ingalagi</option>
+                    <option value="Itigati">Itigati</option>
+                    <option value="Kalaghatgi">Kalaghatgi</option>
+                    <option value="Kalburgi">Kalburgi</option>
+                    <option value="Kallanganur">Kallanganur</option>
+                    <option value="Kampallikkoppa">Kampallikkoppa</option>
+                    <option value="Karadikoppa">Karadikoppa</option>
+                    <option value="Koundgol">Koundgol</option>
+                    <option value="Kumkura">Kumkura</option>
+                    <option value="Kuradikeri">Kuradikeri</option>
+                    <option value="Kuruvinakoppa">Kuruvinakoppa</option>
+                    <option value="Kyalkond">Kyalkond</option>
+                    <option value="Laxmeshwar">Laxmeshwar</option>
+                    <option value="Mantroddi">Mantroddi</option>
+                    <option value="Mishrikoti">Mishrikoti</option>
+                    <option value="Mullalli">Mullalli</option>
+                    <option value="Naragunda">Naragunda</option>
+                    <option value="Navalgund">Navalgund</option>
+                    <option value="Navalagunda">Navalagunda</option>
+                    <option value="Ramadurga">Ramadurga</option>
+                    <option value="Ramanagar">Ramanagar</option>
+                    <option value="Saundatti">Saundatti</option>
+                    <option value="Saunshi">Saunshi</option>
+                    <option value="Sherewada">Sherewada</option>
+                    <option value="Shirahatti">Shirahatti</option>
+                    <option value="Shirkol">Shirkol</option>
+                    <option value="Shivalli">Shivalli</option>
+                    <option value="Sindanur">Sindanur</option>
+                    <option value="Surashattikoppa">Surashattikoppa</option>
+                    <option value="Tadas">Tadas</option>
+                    <option value="Tarihal">Tarihal</option>
+                    <option value="Tarlgatta">Tarlgatta</option>
+                    <option value="Vijayapura">Vijayapura</option>
+                    <option value="Vijayapura(non stop)">Vijayapura(non stop)</option>
+                    <option value="Yalivalla">Yalivalla</option>
+                    <option value="Yaraguppi">Yaraguppi</option>
+                </select>
+                <input type="text" id="busStandInput" placeholder="Enter Your Destination (e.g. Hyderabad)"
+                    onkeyup="handleEnter(event)">
+            </div>
+            <div class="button-group">
+                <button class="btn" onclick="searchBusDetails()">🔍 Search Now</button>
+                <button class="btn btn-secondary" onclick="clearSearch()">✕ Clear</button>
+            </div>
+        </div>
+
+        <div id="message"></div>
+
+        <div id="busDetails">
+            <div class="result-card">
+                <div class="result-header">
+                    <h2>📍 Journey Summary</h2>
+                </div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Destination</span>
+                        <span class="info-value" id="valDest">---</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Bus Position</span>
+                        <span class="info-value" id="valPlace">---</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Platform No.</span>
+                        <span class="info-value" id="valPlatform">---</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Distance</span>
+                        <span class="info-value" id="valDist">---</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Est. Duration</span>
+                        <span class="info-value" id="valDuration">---</span>
+                    </div>
+                </div>
+                <div class="timings-box">
+                    <span class="info-label">Bus Timings</span>
+                    <div class="info-value" id="valTimings" style="margin-top: 8px;">---</div>
+                </div>
+
+                <div class="action-buttons"
+                    style="margin-top: 30px; display: flex; gap: 10px; justify-content: flex-end;">
+                    <button class="btn" onclick="speakBusDetails()">🔊 Listen</button>
+                    <button class="btn btn-secondary" onclick="stopSpeaking()">⏹ Stop</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-tools">
+        <div class="translate-buttons">
+            <button class="btn" onclick="translateToKannada()">ಕನ್ನಡ</button>
+            <button class="btn" onclick="translateToHindi()">हिंदी</button>
+        </div>
+        <div class="translator-container">
+            <div id="google_element"></div>
+        </div>
+    </div>
+
+    <script src="https://translate.google.com/translate_a/element.js?cb=initTranslate"></script>
+    <script>
+        function initTranslate() {
+            new google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_element');
+        }
+
+        const busStands = {
+            "Vijayapura": {
+                timings: ["06:15", "07:00", "07:10", "07:20", "07:30", "07:45", "08:00", "08:20", "08:30", "08:40", "08:50", "09:00", "09:10", "09:20", "09:30", "09:40", "09:50", "10:00", "10:15", "10:20", "10:25", "10:30", "11:10", "11:20", "11:30", "11:40", "11:50", "12:00", "12:15", "12:30", "12:40", "12:50", "13:00", "13:05", "13:10", "13:20", "13:30", "13:40", "13:50", "14:10", "14:20", "14:30", "14:45", "15:00", "15:30", "15:45", "16:00", "16:15", "16:30", "16:45", "16:55", "17:05", "17:15", "17:30", "17:35", "18:15", "18:45", "20:00", "21:40"],
+                distance: 206, travelDuration: 5, place: "Downstairs", platform: 1
+            },
+            "Vijayapura(non stop)": {
+                timings: ["06:30", "07:50", "11:00", "14:00", "18:30", "19:15"],
+                distance: 206, travelDuration: 4, place: "Downstairs", platform: 1
+            },
+            "Humanabadh": {
+                timings: ["08:10", "08:40", "10:40", "18:30"],
+                distance: 447, travelDuration: 9, place: "Downstairs", platform: 1
+            },
+            "Chittapura": {
+                timings: ["08:00"],
+                distance: 280, travelDuration: 6, place: "Downstairs", platform: 2
+            },
+            "Bagalakot": {
+                timings: ["06:15", "06:45", "07:00", "07:15", "07:30", "07:45", "08:15", "08:40", "09:00", "09:30", "10:00", "10:30", "11:15", "11:30", "11:40", "12:00", "12:15", "12:30", "12:45", "13:00", "13:20", "13:40", "13:50", "14:00", "14:10", "14:30", "14:45", "15:00", "15:15", "15:40", "15:50", "16:00", "16:10", "16:20", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30"],
+                distance: 138, travelDuration: 3, place: "Downstairs", platform: 2
+            },
+            "Ilakal": {
+                timings: ["07:00", "07:30", "08:00", "08:15", "08:30", "09:00"],
+                distance: 171, travelDuration: 3.5, place: "Downstairs", platform: 2
+            },
+            "Hyderabad": {
+                timings: ["08:15", "09:45", "11:00", "12:15", "13:15", "14:45", "15:15", "16:30", "17:15", "17:30", "07:45", "10:30", "11:15", "14:15", "15:15", "17:30", "18:00", "18:45", "19:30", "20:15", "21:15"],
+                distance: 521, travelDuration: 11, place: "Downstairs", platform: "2 & 4"
+            },
+            "Naragunda": {
+                timings: ["08:35", "11:45", "13:35", "16:00", "16:30", "17:00", "17:05", "17:45", "18:30", "19:00"],
+                distance: 60, travelDuration: 1.5, place: "Downstairs", platform: 2
+            },
+            "Ramadurga": {
+                timings: ["14:00", "15:00"],
+                distance: 90, travelDuration: 2, place: "Entrance (Downstairs)", platform: 2
+            },
+            "Gadag(Nonstop)": {
+                timings: ["05:30", "07:00", "08:15", "09:00", "10:20", "11:30", "12:45", "14:00", "15:20", "16:30", "17:30", "18:45", "20:00", "21:30", "23:00"],
+                distance: 62, travelDuration: 1.5, place: "Downstairs", platform: 3
+            },
+            "Kalburgi": {
+                timings: ["06:30", "07:00", "08:00", "11:15", "12:30", "13:30", "19:15"],
+                distance: 384, travelDuration: 7.5, place: "Downstairs", platform: 4
+            },
+            "Gajendragada": {
+                timings: ["09:15", "11:00", "14:15", "15:15"],
+                distance: 114, travelDuration: 2.5, place: "Downstairs", platform: 4
+            },
+            "Sindanur": {
+                timings: ["12:00", "12:05", "13:00", "13:15", "13:45", "14:30", "16:15", "18:45", "20:00", "20:30"],
+                distance: 227, travelDuration: 4.5, place: "Downstairs", platform: 4
+            },
+            "Gangavati": {
+                timings: ["08:00", "09:15", "09:30", "09:45", "10:50", "11:00", "12:10", "13:30", "14:10", "14:45", "14:55"],
+                distance: 177, travelDuration: 3.5, place: "Downstairs", platform: 4
+            },
+            "Bellary": {
+                timings: ["09:00", "09:30", "10:45", "11:30", "12:20", "12:45", "13:15", "13:30", "13:45", "14:45", "16:30", "17:00", "18:15"],
+                distance: 220, travelDuration: 4.5, place: "Downstairs", platform: 4
+            },
+            "Hospet": {
+                timings: ["06:30", "07:00", "10:00", "10:15", "10:20", "11:45", "11:50", "12:05", "12:30", "13:00", "15:30", "16:20", "17:00", "17:15", "17:30", "17:45", "18:30", "19:00", "20:15", "20:45", "21:30", "22:30"],
+                distance: 153, travelDuration: 3, place: "Downstairs", platform: 4
+            },
+            "Gadag": {
+                timings: ["06:00", "06:40", "08:00", "08:20", "09:40", "10:00", "11:20", "11:50", "12:00", "12:20", "13:30", "14:00", "15:15", "15:20", "17:00", "17:40", "18:30", "19:45", "20:00", "20:30"],
+                distance: 64, travelDuration: 1.5, place: "Downstairs", platform: 5
+            },
+            "Annigeri": {
+                timings: ["07:30", "10:00", "15:15", "18:00", "20:30", "21:00"],
+                distance: 35, travelDuration: 50, place: "Downstairs", platform: 5
+            },
+            "Annigeri-Naavalli": {
+                timings: ["08:30", "14:00", "19:30"],
+                distance: 47, travelDuration: 60, place: "Downstairs", platform: 5
+            },
+            "Kalaghatgi": {
+                timings: ["06:30", "07:15", "08:55", "10:10", "11:45", "12:55", "14:15", "15:30", "16:50", "18:20", "21:00"],
+                distance: 29, travelDuration: 30, place: "Downstairs", platform: 5
+            },
+            "Begura": {
+                timings: ["08:20", "08:45", "10:30", "13:15", "15:30", "17:15", "18:15", "19:30", "20:00", "20:45"],
+                distance: 42, travelDuration: 60, place: "Downstairs", platform: 6
+            },
+            "Hirehonnihalli": {
+                timings: ["07:15", "09:15", "11:15", "13:15", "15:15", "17:30"],
+                distance: 24, travelDuration: 30, place: "Downstairs", platform: 6
+            },
+            "Gajagatti": {
+                timings: ["07:00", "09:15", "11:15", "13:00", "17:30"],
+                distance: 45, travelDuration: 60, place: "Downstairs", platform: 6
+            },
+            "Hulakoppa": {
+                timings: ["06:00", "08:30", "09:45", "13:30", "21:15"],
+                distance: 45, travelDuration: 60, place: "Downstairs", platform: 6
+            },
+            "Badageri": {
+                timings: ["04:15", "08:15", "08:45", "09:45", "11:00", "14:30", "19:15"],
+                distance: 40, travelDuration: 60, place: "Downstairs", platform: 6
+            },
+            "Bamnahalli-Hangal": {
+                timings: ["06:45", "09:30", "12:00", "15:00", "15:30", "17:45"],
+                distance: 441, travelDuration: 9, place: "Downstairs", platform: 7
+            },
+            "Tadas": {
+                timings: ["07:20", "08:20", "09:00", "10:40", "12:30", "14:00", "16:00", "18:45", "21:30"],
+                distance: 28, travelDuration: 40, place: "Downstairs", platform: 7
+            },
+            "Guruvinahalli": {
+                timings: ["06:45", "07:00", "09:15", "15:30", "16:45", "18:45"],
+                distance: 40, travelDuration: 60, place: "Downstairs", platform: 7
+            },
+            "Kumkura": {
+                timings: ["07:00", "08:45", "10:30", "14:00", "15:30", "18:30", "21:00"],
+                distance: 38, travelDuration: 60, place: "Downstairs", platform: 7
+            },
+            "Aralikatti": {
+                timings: ["07:30", "08:35", "10:45", "14:00", "17:00", "19:00", "21:00"],
+                distance: 23, travelDuration: 30, place: "Downstairs", platform: 7
+            },
+            "Yalivalla": {
+                timings: ["07:15", "08:30", "10:00", "12:30", "15:00", "17:15", "19:15", "21:15"],
+                distance: 30, travelDuration: 35, place: "Downstairs", platform: 7
+            },
+            "Ingalagi": {
+                timings: ["08:45", "12:00", "14:00", "16:15", "17:30", "21:15"],
+                distance: 46, travelDuration: 60, place: "Downstairs", platform: 8
+            },
+            "Mantroddi": {
+                timings: ["06:45", "07:30", "08:15", "09:30", "14:45", "17:15", "19:15", "21:15"],
+                distance: 82, travelDuration: 2, place: "Downstairs", platform: 8
+            },
+            "Surashattikoppa": {
+                timings: ["08:00", "10:30", "14:30", "16:15", "18:30", "21:15"],
+                distance: 30, travelDuration: 35, place: "Downstairs", platform: 8
+            },
+            "Kuradikeri": {
+                timings: ["07:00", "08:45", "10:30", "20:15"],
+                distance: 23, travelDuration: 30, place: "Downstairs", platform: 8
+            },
+            "Kampallikkoppa": {
+                timings: ["07:30", "09:15", "11:15", "13:45", "16:00", "18:30", "21:00"],
+                distance: 25, travelDuration: 30, place: "Downstairs", platform: 8
+            },
+            "Navalagunda": {
+                timings: ["09:00", "10:30", "12:15", "14:00", "16:40", "19:00", "21:30"],
+                distance: 40, travelDuration: 50, place: "Downstairs", platform: 8
+            },
+            "Shirahatti": {
+                timings: ["06:40", "08:20", "10:20", "12:40", "15:00", "17:20", "20:30"],
+                distance: 70, travelDuration: 1.5, place: "Downstairs", platform: 9
+            },
+            "Kallanganur": {
+                timings: ["06:00", "06:30", "07:00", "09:15"],
+                distance: 128, travelDuration: 2.5, place: "Downstairs", platform: 9
+            },
+            "Inganalli": {
+                timings: ["07:00", "09:15", "11:45", "14:30", "17:00", "19:45", "21:45"],
+                distance: 30, travelDuration: 45, place: "Downstairs", platform: 9
+            },
+            "Yaraguppi": {
+                timings: ["07:30", "10:15", "14:00", "17:00", "19:30", "21:30"],
+                distance: 56, travelDuration: 1.5, place: "Downstairs", platform: 9
+            },
+            "Mullalli": {
+                timings: ["07:30", "10:10", "14:15", "17:15", "19:30", "21:15"],
+                distance: 30, travelDuration: 45, place: "Downstairs", platform: 9
+            },
+            "Shivalli": {
+                timings: ["07:00", "08:45", "10:30", "13:00", "15:45", "18:30", "21:30"],
+                distance: 21, travelDuration: 30, place: "Downstairs", platform: 10
+            },
+            "Saundatti": {
+                timings: ["07:45", "09:15", "11:45", "14:45", "18:15"],
+                distance: 86, travelDuration: 2, place: "Downstairs", platform: 10
+            },
+            "Ballur": {
+                timings: ["08:15", "13:30", "17:00", "20:15"],
+                distance: 58, travelDuration: 1.5, place: "Downstairs", platform: 10
+            },
+            "Navalgund": {
+                timings: ["08:40", "11:00", "13:30", "16:45", "19:15", "21:00"],
+                distance: 58, travelDuration: 1.5, place: "Downstairs", platform: 10
+            },
+            "Shirkol": {
+                timings: ["08:15", "10:38", "15:15", "16:30", "20:30"],
+                distance: 46, travelDuration: 60, place: "Downstairs", platform: 10
+            },
+            "Koundgol": {
+                timings: ["07:30", "09:15", "11:25", "13:30", "16:00", "18:25", "20:15"],
+                distance: 21, travelDuration: 30, place: "Downstairs", platform: 11
+            },
+            "Laxmeshwar": {
+                timings: ["06:00", "08:15", "10:00", "12:15", "14:45", "17:30", "20:30"],
+                distance: 58, travelDuration: 1.5, place: "Entrance (Downstairs)", platform: 11
+            },
+            "Tarlgatta": {
+                timings: ["07:00", "09:00", "11:00", "14:00", "16:30", "19:15"],
+                distance: 41, travelDuration: 60, place: "Downstairs", platform: 11
+            },
+            "Kyalkond": {
+                timings: ["07:45", "10:45", "14:45", "17:15", "21:00"],
+                distance: 65, travelDuration: 1.5, place: "Downstairs", platform: 11
+            },
+            "Saunshi": {
+                timings: ["07:15", "07:45", "17:15", "18:45", "20:00"],
+                distance: 35, travelDuration: 60, place: "Downstairs", platform: 11
+            },
+            "Hulgur": {
+                timings: ["08:15", "11:30", "13:15", "15:30", "20:00", "23:00"],
+                distance: 41, travelDuration: 60, place: "Downstairs", platform: 12
+            },
+            "Mishrikoti": {
+                timings: ["06:30", "08:10", "10:30", "12:30", "15:20", "17:30", "19:30", "21:45"],
+                distance: 16, travelDuration: 20, place: "Entrance (Downstairs)", platform: 1
+            },
+            "Chavargudd": {
+                timings: ["07:15", "09:25", "12:05", "14:45", "17:15", "19:40", "22:00"],
+                distance: 16, travelDuration: 20, place: "Entrance (Downstairs)", platform: 1
+            },
+            "Tarihal": {
+                timings: ["07:35", "10:55", "14:00", "17:15", "20:05"],
+                distance: 11, travelDuration: 15, place: "Entrance (Downstairs)", platform: 2
+            },
+            "Ramanagar": {
+                timings: ["10:00", "17:10"],
+                distance: 18, travelDuration: 20, place: "Entrance (Downstairs)", platform: 2
+            },
+            "Itigati": {
+                timings: ["08:15", "10:00", "11:50", "18:00"],
+                distance: 17, travelDuration: 20, place: "Entrance (Downstairs)", platform: 2
+            },
+            "Basavanakoppa": {
+                timings: ["07:30", "11:40", "15:00", "19:00"],
+                distance: 16, travelDuration: 20, place: "Entrance (Downstairs)", platform: 2
+            },
+            "Dummwad": {
+                timings: ["07:15", "11:05", "15:35", "21:30"],
+                distance: 19, travelDuration: 25, place: "Entrance (Downstairs)", platform: 2
+            },
+            "Sherewada": {
+                timings: ["08:45", "17:00"],
+                distance: 16, travelDuration: 20, place: "Entrance (Downstairs)", platform: 3
+            },
+            "Karadikoppa": {
+                timings: ["06:45", "09:45", "14:00", "17:30", "21:15"],
+                distance: 15, travelDuration: 20, place: "Entrance (Downstairs)", platform: 3
+            },
+            "Giriyal": {
+                timings: ["07:10", "10:00", "13:30", "16:15", "19:45"],
+                distance: 16, travelDuration: 20, place: "Entrance (Downstairs)", platform: 3
+            },
+            "Bommasamudra": {
+                timings: ["07:10", "10:00", "14:45", "17:20", "21:00"],
+                distance: 21, travelDuration: 30, place: "Entrance (Downstairs)", platform: 3
+            },
+            "Allapura": {
+                timings: ["20:00", "21:10", "21:40"],
+                distance: 15, travelDuration: 20, place: "Entrance (Downstairs)", platform: 3
+            },
+            "Haliyal": {
+                timings: ["07:00", "10:00", "13:15", "17:30", "20:35"],
+                distance: 50, travelDuration: 1.5, place: "Entrance (Downstairs)", platform: 3
+            },
+            "Betadur": {
+                timings: ["06:10", "09:05", "12:05", "15:00", "18:30", "21:50"],
+                distance: 20, travelDuration: 30, place: "Entrance (Downstairs)", platform: 3
+            },
+            "Chabbi": {
+                timings: ["07:15", "10:30", "14:00", "17:15", "20:30"],
+                distance: 18, travelDuration: 25, place: "Entrance (Downstairs)", platform: 3
+            },
+            "Kuruvinakoppa": {
+                timings: ["07:05", "10:20", "14:45", "18:00", "19:30"],
+                distance: 95, travelDuration: 2, place: "Entrance (Downstairs)", platform: 1
+            },
+            "Devaragudihal": {
+                timings: ["07:30", "09:30", "12:00", "15:00", "16:30"],
+                distance: 10, travelDuration: 15, place: "Entrance (Downstairs)", platform: 1
+            },
+            "Dr. T school": {
+                timings: ["08:23", "15:50"],
+                distance: 1.5, travelDuration: 5, place: "Entrance (Downstairs)", platform: 1
+            }
+        };
+
+        function searchBusDetails() {
+            const input = document.getElementById("busStandInput").value.trim();
+            const messageElement = document.getElementById("message");
+            const detailsDiv = document.getElementById("busDetails");
+
+            if (!input) {
+                showMsg("Please enter a destination or select one from the list.");
+                return;
+            }
+
+            let matchedKey = Object.keys(busStands).find(key =>
+                key.toLowerCase() === input.toLowerCase()
+            );
+
+            if (!matchedKey) {
+                // Try partial match (starts with)
+                matchedKey = Object.keys(busStands).find(key =>
+                    key.toLowerCase().startsWith(input.toLowerCase())
+                );
+            }
+
+            if (!matchedKey) {
+                // Try partial match (includes)
+                matchedKey = Object.keys(busStands).find(key =>
+                    key.toLowerCase().includes(input.toLowerCase())
+                );
+            }
+
+            if (matchedKey) {
+                const details = busStands[matchedKey];
+
+                // Duration Logic: heuristic to check if duration represents hours or minutes
+                let durationStr = "";
+                if ((details.distance / details.travelDuration) >= 5) {
+                    durationStr = details.travelDuration + " hours";
+                } else {
+                    durationStr = details.travelDuration + " minutes";
+                }
+
+                // Update Card
+                document.getElementById("valDest").innerHTML = `🚌 ${matchedKey}`;
+                document.getElementById("valPlace").innerHTML = `🏢 ${details.place}`;
+                document.getElementById("valPlatform").innerHTML = `📍 ${details.platform}`;
+                document.getElementById("valDist").innerHTML = `📏 ${details.distance} km`;
+                document.getElementById("valDuration").innerHTML = `⏳ ${durationStr}`;
+                document.getElementById("valTimings").innerHTML = `🕒 ${details.timings.join(", ")}`;
+
+                detailsDiv.style.display = "block";
+                messageElement.style.display = "none";
+
+                // Smooth scroll to results
+                setTimeout(() => {
+                    detailsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+
+            } else {
+                showMsg("❌ Destination not found. Try one from the dropdown list.");
+                detailsDiv.style.display = "none";
+            }
+        }
+
+        function showMsg(txt) {
+            const el = document.getElementById("message");
+            el.innerText = txt;
+            el.style.display = "block";
+        }
+
+        function clearSearch() {
+            document.getElementById("busStandInput").value = "";
+            document.getElementById("busDropdown").value = "";
+            document.getElementById("busDetails").style.display = "none";
+            document.getElementById("message").style.display = "none";
+            stopSpeaking();
+        }
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') searchBusDetails();
+        }
+
+        function copyBusNameToInput() {
+            const val = document.getElementById("busDropdown").value;
+            if (val) {
+                document.getElementById("busStandInput").value = val;
+                searchBusDetails(); // Auto search on dropdown select
+            }
+        }
+
+        function speakBusDetails() {
+            const dest = document.getElementById("valDest").innerText.replace('🚌 ', '');
+            const timings = document.getElementById("valTimings").innerText.replace('🕒 ', '');
+            const platform = document.getElementById("valPlatform").innerText.replace('📍 ', '');
+
+            if (dest === "---") return;
+
+            const lang = document.querySelector('.goog-te-combo')?.value || 'en';
+            let text = "";
+            if (lang === 'kn') {
+                text = `${dest} ಬಸ್ ವಿವರಗಳು. ಪ್ಲಾಟ್‌ಫಾರ್ಮ್ ಸಂಖ್ಯೆ ${platform}. ಸಮಯಗಳು: ${timings}.`;
+            } else if (lang === 'hi') {
+                text = `${dest} के लिए बस विवरण। प्लेटफॉर्म नंबर ${platform}। बस का समय है: ${timings}.`;
+            } else {
+                text = `Bus details for ${dest}. Platform number ${platform}. Timings are: ${timings}.`;
+            }
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = lang === 'kn' ? 'kn-IN' : (lang === 'hi' ? 'hi-IN' : 'en-US');
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function stopSpeaking() { window.speechSynthesis.cancel(); }
+
+        function translateToHindi() { updateTranslate('hi'); }
+        function translateToKannada() { updateTranslate('kn'); }
+
+        function updateTranslate(lang) {
+            const el = document.querySelector('.goog-te-combo');
+            if (el) {
+                el.value = lang;
+                el.dispatchEvent(new Event('change'));
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>
