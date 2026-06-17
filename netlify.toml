@@ -1,2 +1,73 @@
 [build]
   publish = "public"
+
+# ─────────────────────────────────────────────
+# Security Headers — applied to all routes
+# ─────────────────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Clickjacking protection
+    X-Frame-Options = "DENY"
+
+    # MIME type sniffing prevention
+    X-Content-Type-Options = "nosniff"
+
+    # Legacy XSS filter
+    X-XSS-Protection = "1; mode=block"
+
+    # Referrer control
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # Permissions / Feature Policy
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+
+    # HSTS — force HTTPS for 1 year including subdomains
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+    # Content Security Policy
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://www.gstatic.com https://translate.google.com https://translate.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://firebaselogging.googleapis.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+
+# ─────────────────────────────────────────────
+# Cache Policies
+# ─────────────────────────────────────────────
+
+# HTML pages — always revalidate, never cache stale
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "no-cache, must-revalidate"
+
+# CSS / JS — cache for 1 day, revalidate with ETag
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+# Assets (images, PDFs) — cache for 7 days
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, must-revalidate"
+
+# ─────────────────────────────────────────────
+# Redirect Rules
+# ─────────────────────────────────────────────
+
+# Force HTTPS (Netlify also does this automatically, belt-and-suspenders)
+[[redirects]]
+  from = "http://:host/*"
+  to = "https://:host/:splat"
+  status = 301
+  force = true
+
+# SPA-style fallback for PJAX router (so direct URL access still works)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

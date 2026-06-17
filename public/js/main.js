@@ -3,6 +3,44 @@ import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/fir
 
 let isTransitioning = false;
 
+// ─────────────────────────────────────────────
+// Input Validation & Sanitization Helpers
+// ─────────────────────────────────────────────
+const FORM_LIMITS = { name: 100, email: 254, message: 2000 };
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+const SUBMIT_COOLDOWN_MS = 60000; // 60 seconds between submissions
+
+function sanitizeText(str) {
+    // Strip HTML tags and encode special chars — prevents stored XSS via Firestore data
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .trim();
+}
+
+function validateForm(name, email, message) {
+    const errors = [];
+    if (!name || name.length < 2)          errors.push('Name must be at least 2 characters.');
+    if (name.length > FORM_LIMITS.name)    errors.push(`Name must be under ${FORM_LIMITS.name} characters.`);
+    if (!EMAIL_REGEX.test(email))          errors.push('Please enter a valid email address.');
+    if (email.length > FORM_LIMITS.email)  errors.push('Email address is too long.');
+    if (!message || message.length < 10)   errors.push('Message must be at least 10 characters.');
+    if (message.length > FORM_LIMITS.message) errors.push(`Message must be under ${FORM_LIMITS.message} characters.`);
+    return errors;
+}
+
+function isRateLimited() {
+    const last = localStorage.getItem('_form_last_submit');
+    if (last && Date.now() - parseInt(last, 10) < SUBMIT_COOLDOWN_MS) {
+        const remaining = Math.ceil((SUBMIT_COOLDOWN_MS - (Date.now() - parseInt(last, 10))) / 1000);
+        return `Please wait ${remaining}s before submitting again.`;
+    }
+    return null;
+}
+
 // Initialize Page-Specific Interactive Components
 function initPage() {
     // 1. Initialize Lucide Icons
@@ -27,46 +65,79 @@ function initPage() {
     const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-stagger');
     revealElements.forEach(el => observer.observe(el));
 
-    // 3. Form Submission Handling to Firebase Firestore
+    // 3. Form Submission — validated, sanitized, rate-limited
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
+        // Add maxlength attributes to inputs for DOM-level enforcement
+        const nameInput    = contactForm.querySelector('[name="name"]');
+        const emailInput   = contactForm.querySelector('[name="email"]');
+        const messageInput = contactForm.querySelector('[name="message"]');
+        if (nameInput)    nameInput.setAttribute('maxlength', FORM_LIMITS.name);
+        if (emailInput)   emailInput.setAttribute('maxlength', FORM_LIMITS.email);
+        if (messageInput) messageInput.setAttribute('maxlength', FORM_LIMITS.message);
+
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = contactForm.querySelector('button');
             const originalText = btn.innerHTML;
-            
-            const nameInput = contactForm.querySelector('[name="name"]');
-            const emailInput = contactForm.querySelector('[name="email"]');
-            const messageInput = contactForm.querySelector('[name="message"]');
+
+            const name    = nameInput ? nameInput.value.trim() : '';
+            const email   = emailInput ? emailInput.value.trim() : '';
+            const message = messageInput ? messageInput.value.trim() : '';
+
+            // Client-side rate limiting
+            const rateLimitMsg = isRateLimited();
+            if (rateLimitMsg) {
+                btn.innerHTML = rateLimitMsg;
+                setTimeout(() => { btn.innerHTML = originalText; }, 3000);
+                return;
+            }
+
+            // Validate inputs
+            const errors = validateForm(name, email, message);
+            if (errors.length > 0) {
+                btn.innerHTML = errors[0]; // Show first error
+                btn.style.background = '#ef4444';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '';
+                }, 4000);
+                return;
+            }
 
             btn.innerHTML = 'Establishing Secure Connection...';
             btn.disabled = true;
 
             try {
+                // Store sanitized values — prevents stored XSS if data ever rendered as HTML
                 await addDoc(collection(db, "messages"), {
-                    name: nameInput.value,
-                    email: emailInput.value,
-                    message: messageInput.value,
-                    timestamp: serverTimestamp()
+                    name:      sanitizeText(name),
+                    email:     sanitizeText(email),
+                    message:   sanitizeText(message),
+                    timestamp: serverTimestamp(),
+                    userAgent: navigator.userAgent.substring(0, 200)
                 });
 
-                btn.innerHTML = 'Transmission Successful';
+                // Record successful submission timestamp for rate limiting
+                localStorage.setItem('_form_last_submit', Date.now().toString());
+
+                btn.innerHTML = 'Transmission Successful ✓';
                 btn.style.background = 'var(--accent)';
                 contactForm.reset();
-                
+
                 setTimeout(() => {
                     btn.innerHTML = originalText;
                     btn.disabled = false;
-                    btn.style.background = 'var(--gradient-1)';
+                    btn.style.background = '';
                 }, 4000);
             } catch (error) {
-                console.error("Error adding document: ", error);
-                btn.innerHTML = 'Transmission Failed';
+                console.error('Form submission error:', error);
+                btn.innerHTML = 'Transmission Failed. Try again.';
                 btn.style.background = '#ef4444';
                 setTimeout(() => {
                     btn.innerHTML = originalText;
                     btn.disabled = false;
-                    btn.style.background = 'var(--gradient-1)';
+                    btn.style.background = '';
                 }, 4000);
             }
         });
