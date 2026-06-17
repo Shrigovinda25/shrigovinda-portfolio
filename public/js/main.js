@@ -1,61 +1,16 @@
 import { db } from './firebase-config.js';
 import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Lucide Icons
+let isTransitioning = false;
+
+// Initialize Page-Specific Interactive Components
+function initPage() {
+    // 1. Initialize Lucide Icons
     if (window.lucide) {
         lucide.createIcons();
     }
 
-    // Scroll Progress Bar
-    const progressBar = document.createElement('div');
-    progressBar.style.position = 'fixed';
-    progressBar.style.top = '0';
-    progressBar.style.left = '0';
-    progressBar.style.height = '3px';
-    progressBar.style.background = 'var(--gradient-1)';
-    progressBar.style.zIndex = '1000';
-    progressBar.style.width = '0%';
-    progressBar.style.transition = 'width 0.1s ease-out';
-    document.body.appendChild(progressBar);
-
-    window.addEventListener('scroll', () => {
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (winScroll / height) * 100;
-        progressBar.style.width = scrolled + '%';
-    });
-
-    // Navbar Scroll Effect
-    const navbar = document.getElementById('navbar');
-    const mobileToggle = document.querySelector('.mobile-toggle');
-    const navLinks = document.querySelector('.nav-links');
-
-    const handleScroll = () => {
-        if (window.scrollY > 30) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    };
-
-    if (mobileToggle) {
-        mobileToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            const icon = mobileToggle.querySelector('i');
-            if (navLinks.classList.contains('active')) {
-                icon.setAttribute('data-lucide', 'x');
-            } else {
-                icon.setAttribute('data-lucide', 'menu');
-            }
-            lucide.createIcons();
-        });
-    }
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-
-    // Intersection Observer for Scroll Reveal
+    // 2. Intersection Observer for Scroll Reveal
     const observerOptions = {
         threshold: 0.15,
         rootMargin: '0px 0px -50px 0px'
@@ -65,17 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
-                // Optional: stop observing after reveal
-                // observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    // Initial Reveal for elements already in view
     const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-stagger');
     revealElements.forEach(el => observer.observe(el));
 
-    // Form Submission Handling to Firebase Firestore
+    // 3. Form Submission Handling to Firebase Firestore
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', async (e) => {
@@ -120,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Interactive Tilt effect for cards
+    // 4. Interactive Tilt effect for cards
     const cards = document.querySelectorAll('.glass-slab');
     cards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
@@ -137,5 +89,299 @@ document.addEventListener('DOMContentLoaded', () => {
         card.addEventListener('mouseleave', () => {
             card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)`;
         });
+    });
+}
+
+// ----------------------------------------------------
+// Interactive Particle Canvas Background
+// ----------------------------------------------------
+function initBackgroundCanvas() {
+    if (document.getElementById('bg-canvas')) return;
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'bg-canvas';
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+
+    let particles = [];
+    const maxParticles = 60;
+    const connectionDist = 120;
+    let mouse = { x: null, y: null, active: false };
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    class Particle {
+        constructor() {
+            this.reset();
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+        }
+
+        reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.vx = (Math.random() - 0.5) * 0.45;
+            this.vy = (Math.random() - 0.5) * 0.45;
+            this.size = Math.random() * 2 + 1;
+            this.color = Math.random() > 0.5 ? 'rgba(99, 102, 241, 0.35)' : 'rgba(168, 85, 247, 0.35)';
+        }
+
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+
+            if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+            if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.fill();
+        }
+    }
+
+    for (let i = 0; i < maxParticles; i++) {
+        particles.push(new Particle());
+    }
+
+    window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        mouse.active = true;
+    });
+
+    window.addEventListener('mouseleave', () => {
+        mouse.active = false;
+    });
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw connections
+        for (let i = 0; i < particles.length; i++) {
+            const p1 = particles[i];
+            p1.update();
+            p1.draw();
+
+            for (let j = i + 1; j < particles.length; j++) {
+                const p2 = particles[j];
+                const dx = p1.x - p2.x;
+                const dy = p1.y - p2.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < connectionDist) {
+                    const alpha = (1 - dist / connectionDist) * 0.15;
+                    ctx.beginPath();
+                    ctx.moveTo(p1.x, p1.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.strokeStyle = `rgba(99, 102, 241, ${alpha})`;
+                    ctx.lineWidth = 0.8;
+                    ctx.stroke();
+                }
+            }
+
+            // Connect to mouse
+            if (mouse.active) {
+                const mdx = p1.x - mouse.x;
+                const mdy = p1.y - mouse.y;
+                const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+                if (mdist < 180) {
+                    const malpha = (1 - mdist / 180) * 0.25;
+                    ctx.beginPath();
+                    ctx.moveTo(p1.x, p1.y);
+                    ctx.lineTo(mouse.x, mouse.y);
+                    ctx.strokeStyle = `rgba(168, 85, 247, ${malpha})`;
+                    ctx.lineWidth = 1.0;
+                    ctx.stroke();
+                }
+            }
+        }
+
+        requestAnimationFrame(animate);
+    }
+    animate();
+}
+
+// ----------------------------------------------------
+// PPT Page Transition Router
+// ----------------------------------------------------
+async function navigateTo(url, isPopState = false) {
+    if (isTransitioning) return;
+    isTransitioning = true;
+
+    const mainEl = document.querySelector('main.container');
+    if (!mainEl) {
+        window.location.href = url;
+        return;
+    }
+
+    // Phase 1: Slide Out Left
+    mainEl.classList.add('page-exit');
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+        const html = await response.text();
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const newMain = doc.querySelector('main.container');
+        const newTitle = doc.title;
+
+        // Ensure slide transition finishes before swapping
+        await new Promise(resolve => setTimeout(resolve, 450));
+
+        if (newMain) {
+            // Push history if not popstate
+            if (!isPopState) {
+                window.history.pushState(null, '', url);
+            }
+            document.title = newTitle;
+
+            // Swap content and layout styling
+            mainEl.innerHTML = newMain.innerHTML;
+            mainEl.className = newMain.className;
+
+            updateNavbarActive(url);
+
+            // Collapse mobile menu if open
+            const navLinks = document.querySelector('.nav-links');
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            if (navLinks && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                if (mobileToggle) {
+                    const icon = mobileToggle.querySelector('i');
+                    if (icon) {
+                        icon.setAttribute('data-lucide', 'menu');
+                        if (window.lucide) lucide.createIcons();
+                    }
+                }
+            }
+
+            // Scroll back to top
+            window.scrollTo(0, 0);
+
+            // Phase 2: Slide In Right
+            mainEl.classList.remove('page-exit');
+            mainEl.classList.add('page-enter');
+
+            // Force reflow
+            mainEl.offsetHeight;
+
+            // Trigger enter animation
+            mainEl.classList.remove('page-enter');
+
+            // Re-initialize page scripts
+            initPage();
+        } else {
+            window.location.href = url;
+        }
+    } catch (error) {
+        console.error("Transition Navigation failed:", error);
+        window.location.href = url;
+    } finally {
+        isTransitioning = false;
+    }
+}
+
+function updateNavbarActive(url) {
+    const navLinksList = document.querySelectorAll('.nav-links a');
+    const pathname = new URL(url, window.location.origin).pathname;
+    const filename = pathname.substring(pathname.lastIndexOf('/') + 1) || 'index.html';
+
+    navLinksList.forEach(link => {
+        const linkPathname = new URL(link.href, window.location.origin).pathname;
+        const linkFilename = linkPathname.substring(linkPathname.lastIndexOf('/') + 1) || 'index.html';
+        
+        if (linkFilename === filename) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+}
+
+// Global Setup (run once)
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Initialize Page content
+    initPage();
+
+    // 2. Initialize Canvas Background
+    initBackgroundCanvas();
+
+    // 3. Create Scroll Progress Bar
+    const progressBar = document.createElement('div');
+    progressBar.style.position = 'fixed';
+    progressBar.style.top = '0';
+    progressBar.style.left = '0';
+    progressBar.style.height = '3px';
+    progressBar.style.background = 'var(--gradient-1)';
+    progressBar.style.zIndex = '1000';
+    progressBar.style.width = '0%';
+    progressBar.style.transition = 'width 0.1s ease-out';
+    document.body.appendChild(progressBar);
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        progressBar.style.width = scrolled + '%';
+    });
+
+    // 4. Navbar Scroll Shadow Effect
+    const navbar = document.getElementById('navbar');
+    const handleScroll = () => {
+        if (window.scrollY > 30) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+
+    // 5. Mobile Toggle Navigation Trigger
+    const mobileToggle = document.querySelector('.mobile-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = mobileToggle.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                icon.setAttribute('data-lucide', 'x');
+            } else {
+                icon.setAttribute('data-lucide', 'menu');
+            }
+            if (window.lucide) lucide.createIcons();
+        });
+    }
+
+    // 6. Click Interceptor for Transitions
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('a');
+        if (!link) return;
+
+        const isInternal = link.origin === window.location.origin;
+        const isNotTargetBlank = link.target !== '_blank';
+        const isNotDownload = !link.hasAttribute('download');
+        const isStandardProtocol = ['http:', 'https:'].includes(link.protocol);
+        const isNotBusDetails = !link.pathname.includes('HosurBusDetails.html');
+
+        if (isInternal && isNotTargetBlank && isNotDownload && isStandardProtocol && isNotBusDetails) {
+            e.preventDefault();
+            navigateTo(link.href);
+        }
+    });
+
+    // 7. Popstate Back/Forward Interceptor
+    window.addEventListener('popstate', () => {
+        navigateTo(window.location.href, true);
     });
 });
