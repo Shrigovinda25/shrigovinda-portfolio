@@ -66,6 +66,17 @@
   status = 301
   force = true
 
+# ─────────────────────────────────────────────────────────────────────────────
+# API Gateway Proxy
+# Replace the 'to' URL with your deployed API Gateway URL after deployment.
+# Example: https://shrigovinda-gateway.vercel.app/:splat
+# ─────────────────────────────────────────────────────────────────────────────
+[[redirects]]
+  from = "/api/*"
+  to = "http://localhost:8080/api/:splat"
+  status = 200
+  force = true
+
 # SPA-style fallback for PJAX router (so direct URL access still works)
 [[redirects]]
   from = "/*"

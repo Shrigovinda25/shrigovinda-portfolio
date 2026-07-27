@@ -1,5 +1,5 @@
-import { db } from './firebase-config.js';
-import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+// Firebase config is still loaded for Analytics (in firebase-config.js)
+// Contact form submissions now go through the Contact Service API
 
 let isTransitioning = false;
 
@@ -109,14 +109,18 @@ function initPage() {
             btn.disabled = true;
 
             try {
-                // Store sanitized values — prevents stored XSS if data ever rendered as HTML
-                await addDoc(collection(db, "messages"), {
-                    name:      sanitizeText(name),
-                    email:     sanitizeText(email),
-                    message:   sanitizeText(message),
-                    timestamp: serverTimestamp(),
-                    userAgent: navigator.userAgent.substring(0, 200)
+                // POST to Contact Service via API Gateway
+                const response = await fetch('/api/contact/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, message }),
                 });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || `Server error: ${response.status}`);
+                }
 
                 // Record successful submission timestamp for rate limiting
                 localStorage.setItem('_form_last_submit', Date.now().toString());
@@ -132,7 +136,7 @@ function initPage() {
                 }, 4000);
             } catch (error) {
                 console.error('Form submission error:', error);
-                btn.innerHTML = 'Transmission Failed. Try again.';
+                btn.innerHTML = error.message || 'Transmission Failed. Try again.';
                 btn.style.background = '#ef4444';
                 setTimeout(() => {
                     btn.innerHTML = originalText;
