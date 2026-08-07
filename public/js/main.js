@@ -332,11 +332,8 @@ async function navigateTo(url, isPopState = false) {
             if (navLinks && navLinks.classList.contains('active')) {
                 navLinks.classList.remove('active');
                 if (mobileToggle) {
-                    const icon = mobileToggle.querySelector('i');
-                    if (icon) {
-                        icon.setAttribute('data-lucide', 'menu');
-                        if (window.lucide) lucide.createIcons();
-                    }
+                    mobileToggle.innerHTML = '<i data-lucide="menu"></i>';
+                    if (window.lucide) lucide.createIcons();
                 }
             }
 
@@ -426,15 +423,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileToggle = document.querySelector('.mobile-toggle');
     const navLinks = document.querySelector('.nav-links');
     if (mobileToggle) {
-        mobileToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            const icon = mobileToggle.querySelector('i');
-            if (navLinks.classList.contains('active')) {
-                icon.setAttribute('data-lucide', 'x');
-            } else {
-                icon.setAttribute('data-lucide', 'menu');
-            }
+        mobileToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = navLinks.classList.toggle('active');
+            mobileToggle.innerHTML = isOpen ? '<i data-lucide="x"></i>' : '<i data-lucide="menu"></i>';
             if (window.lucide) lucide.createIcons();
+        });
+
+        // Close mobile nav when clicking outside
+        document.addEventListener('click', (e) => {
+            if (navLinks.classList.contains('active') && !navLinks.contains(e.target) && !mobileToggle.contains(e.target)) {
+                navLinks.classList.remove('active');
+                mobileToggle.innerHTML = '<i data-lucide="menu"></i>';
+                if (window.lucide) lucide.createIcons();
+            }
         });
     }
 
