@@ -50,8 +50,8 @@ function initPage() {
 
     // 2. Intersection Observer for Scroll Reveal
     const observerOptions = {
-        threshold: 0.15,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: 0.05,
+        rootMargin: '0px 0px -30px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -64,6 +64,17 @@ function initPage() {
 
     const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-stagger');
     revealElements.forEach(el => observer.observe(el));
+
+    // Fallback: force-reveal elements already in the viewport on page load
+    // (handles cases where observer misses elements already visible)
+    requestAnimationFrame(() => {
+        revealElements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                el.classList.add('active');
+            }
+        });
+    });
 
     // 3. Form Submission — validated, sanitized, rate-limited
     const contactForm = document.getElementById('contact-form');
