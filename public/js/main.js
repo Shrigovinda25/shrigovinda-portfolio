@@ -1,7 +1,10 @@
 // Firebase config is still loaded for Analytics (in firebase-config.js)
 // Contact form submissions now go through the Contact Service API
 
+import { initPreloader, initCursor, initPageEffects } from './effects.js';
+
 let isTransitioning = false;
+let scene3d = null;
 
 // ─────────────────────────────────────────────
 // Input Validation & Sanitization Helpers
@@ -158,28 +161,13 @@ function initPage() {
         });
     }
 
-    // 4. Interactive Tilt effect for cards
-    const cards = document.querySelectorAll('.glass-slab');
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = (y - centerY) / 20;
-            const rotateY = (centerX - x) / 20;
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)`;
-        });
-    });
+    // 4. 3D tilt, magnetic buttons, split headlines, counters, typewriter
+    initPageEffects();
 }
 
 // ----------------------------------------------------
 // Interactive Particle Canvas Background
+// (fallback when the WebGL scene can't load)
 // ----------------------------------------------------
 function initBackgroundCanvas() {
     if (document.getElementById('bg-canvas')) return;
@@ -214,7 +202,7 @@ function initBackgroundCanvas() {
             this.vx = (Math.random() - 0.5) * 0.45;
             this.vy = (Math.random() - 0.5) * 0.45;
             this.size = Math.random() * 2 + 1;
-            this.color = Math.random() > 0.5 ? 'rgba(99, 102, 241, 0.35)' : 'rgba(168, 85, 247, 0.35)';
+            this.color = Math.random() > 0.5 ? 'rgba(34, 211, 238, 0.35)' : 'rgba(244, 114, 182, 0.35)';
         }
 
         update() {
@@ -267,7 +255,7 @@ function initBackgroundCanvas() {
                     ctx.beginPath();
                     ctx.moveTo(p1.x, p1.y);
                     ctx.lineTo(p2.x, p2.y);
-                    ctx.strokeStyle = `rgba(99, 102, 241, ${alpha})`;
+                    ctx.strokeStyle = `rgba(34, 211, 238, ${alpha})`;
                     ctx.lineWidth = 0.8;
                     ctx.stroke();
                 }
@@ -283,7 +271,7 @@ function initBackgroundCanvas() {
                     ctx.beginPath();
                     ctx.moveTo(p1.x, p1.y);
                     ctx.lineTo(mouse.x, mouse.y);
-                    ctx.strokeStyle = `rgba(168, 85, 247, ${malpha})`;
+                    ctx.strokeStyle = `rgba(244, 114, 182, ${malpha})`;
                     ctx.lineWidth = 1.0;
                     ctx.stroke();
                 }
@@ -336,6 +324,7 @@ async function navigateTo(url, isPopState = false) {
             mainEl.className = newMain.className;
 
             updateNavbarActive(url);
+            if (scene3d) scene3d.setPage(url);
 
             // Collapse mobile menu if open
             const navLinks = document.querySelector('.nav-links');
@@ -396,19 +385,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Initialize Page content
     initPage();
 
-    // 2. Initialize Canvas Background
-    initBackgroundCanvas();
+    // 2. Preloader + custom cursor
+    initPreloader();
+    initCursor();
 
-    // 3. Create Scroll Progress Bar
+    // 3. 3D WebGL scene (falls back to the 2D particle canvas if WebGL/CDN fails)
+    import('./scene3d.js')
+        .then(m => { scene3d = m.initScene3D(); })
+        .catch(err => {
+            console.warn('3D scene unavailable, using 2D fallback:', err);
+            initBackgroundCanvas();
+        });
+
+    // Scroll Progress Bar
     const progressBar = document.createElement('div');
-    progressBar.style.position = 'fixed';
-    progressBar.style.top = '0';
-    progressBar.style.left = '0';
-    progressBar.style.height = '3px';
-    progressBar.style.background = 'var(--gradient-1)';
-    progressBar.style.zIndex = '1000';
-    progressBar.style.width = '0%';
-    progressBar.style.transition = 'width 0.1s ease-out';
+    progressBar.className = 'scroll-progress';
     document.body.appendChild(progressBar);
 
     window.addEventListener('scroll', () => {

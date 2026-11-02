@@ -11,6 +11,14 @@
     <script src="https://unpkg.com/lucide@0.262.0/dist/umd/lucide.min.js" integrity="sha384-+1uhMwdnrxNNvZHrfLRodqU/hkWiEgbyi5OZMsTjQddvnKraBYnC6gbxT0yn7AHd" crossorigin="anonymous"></script>
 </head>
 <body>
+    <div id="preloader" aria-hidden="true">
+        <div class="cube-scene"><div class="cube"><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+        <div class="preloader-logo">SHRIGO<span>.</span></div>
+        <div class="preloader-meta">
+            <div class="preloader-bar"><span></span></div>
+            <div class="preloader-pct">0%</div>
+        </div>
+    </div>
     <div class="bg-grid"></div>
     <div class="bg-orb orb-1"></div>
 
@@ -92,15 +100,15 @@
 
                 <div class="glass-slab" style="margin-top: 5rem; border-left: 4px solid var(--primary); display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; text-align: center;">
                     <div>
-                        <p style="font-size: 2.5rem; font-weight: 900; color: #fff;">95%</p>
+                        <p style="font-size: 2.5rem; font-weight: 900; color: #fff;" data-count="95" data-suffix="%">95%</p>
                         <p style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 0.1em;">Practical Engineering</p>
                     </div>
                     <div>
-                        <p style="font-size: 2.5rem; font-weight: 900; color: #fff;">90%</p>
+                        <p style="font-size: 2.5rem; font-weight: 900; color: #fff;" data-count="90" data-suffix="%">90%</p>
                         <p style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 0.1em;">System Optimization</p>
                     </div>
                     <div>
-                        <p style="font-size: 2.5rem; font-weight: 900; color: #fff;">85%</p>
+                        <p style="font-size: 2.5rem; font-weight: 900; color: #fff;" data-count="85" data-suffix="%">85%</p>
                         <p style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 0.1em;">AI Integration</p>
                     </div>
                 </div>

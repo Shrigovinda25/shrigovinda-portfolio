@@ -11,6 +11,14 @@
     <script src="https://unpkg.com/lucide@0.262.0/dist/umd/lucide.min.js" integrity="sha384-+1uhMwdnrxNNvZHrfLRodqU/hkWiEgbyi5OZMsTjQddvnKraBYnC6gbxT0yn7AHd" crossorigin="anonymous"></script>
 </head>
 <body>
+    <div id="preloader" aria-hidden="true">
+        <div class="cube-scene"><div class="cube"><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+        <div class="preloader-logo">SHRIGO<span>.</span></div>
+        <div class="preloader-meta">
+            <div class="preloader-bar"><span></span></div>
+            <div class="preloader-pct">0%</div>
+        </div>
+    </div>
     <div class="bg-grid"></div>
     <div class="bg-orb orb-1"></div>
     <div class="bg-orb orb-2"></div>
@@ -37,7 +45,8 @@
             <div class="hero-grid">
                 <div class="hero-text">
                     <div style="margin-bottom: 2rem;">
-                        <span style="padding: 0.5rem 1rem; border-radius: 100px; background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); color: var(--primary); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;">
+                        <span class="hero-badge">
+                            <span class="pulse-dot"></span>
                             Automation & Robotics Engineer | AI + Robotics Developer
                         </span>
                     </div>
@@ -45,7 +54,8 @@
                         <span class="text-premium" style="display: inline-block; padding: 0 1rem;">Shrigovinda&nbsp;</span><br>
                         <span class="text-accent-gradient" style="display: inline-block; padding: 0 1rem;">T Kulkarni&nbsp;</span>
                     </h1>
-                    <p style="margin-bottom: 4rem; font-size: 1.2rem; max-width: 650px;">
+                    <p class="hero-typed">I build <span class="typed" data-words="Autonomous Robots|PLC Automation Systems|Computer Vision Pipelines|ROS2 Navigation Stacks|AI-Powered Machines"></span><span class="caret"></span></p>
+                    <p style="margin-bottom: 3rem; font-size: 1.2rem; max-width: 650px;">
                         Automation & Robotics Student focused on building intelligent engineering systems through AI, ROS2, and PLC-driven automation. Specialized in integrating computer vision with robotic hardware.
                     </p>
                     <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center;">
@@ -61,9 +71,20 @@
                             <a href="https://wa.me/918618104226" target="_blank" rel="noopener noreferrer" class="btn-premium"><i data-lucide="message-circle"></i></a>
                         </div>
                     </div>
+                    <div class="hero-stats">
+                        <div class="hero-stat"><strong data-count="9.25">9.25</strong><span>CGPA</span></div>
+                        <div class="hero-stat"><strong data-count="12" data-suffix="+">12+</strong><span>Projects Built</span></div>
+                        <div class="hero-stat"><strong data-count="4">4</strong><span>Skill Domains</span></div>
+                    </div>
                 </div>
-                <div class="profile-frame">
-                    <img src="assets/shrigovinda.jpeg" alt="Shrigovinda T Kulkarni">
+                <div class="profile-stage">
+                    <div class="profile-frame">
+                        <div class="scanline"></div>
+                        <img src="assets/shrigovinda.jpeg" alt="Shrigovinda T Kulkarni">
+                    </div>
+                    <div class="float-chip chip-1" data-depth="30"><span><i data-lucide="bot"></i> ROS2</span></div>
+                    <div class="float-chip chip-2" data-depth="-40"><span><i data-lucide="cpu"></i> PLC</span></div>
+                    <div class="float-chip chip-3" data-depth="22"><span><i data-lucide="eye"></i> Vision AI</span></div>
                 </div>
             </div>
         </section>
