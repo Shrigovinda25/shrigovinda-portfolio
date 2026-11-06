@@ -136,7 +136,7 @@ function initMagnetic() {
 
 // ---------- Split headline into 3D-flipping letters ----------
 function splitText() {
-    const targets = document.querySelectorAll('main h1 .text-premium, main h1 .text-accent-gradient, main h1.text-premium');
+    const targets = document.querySelectorAll('main h1 .text-premium, main h1 .text-accent-gradient, main h2.text-premium');
     let index = 0;
     targets.forEach(el => {
         if (el.dataset.split) return;

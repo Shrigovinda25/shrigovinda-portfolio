@@ -3,8 +3,8 @@
 
 import { initPreloader, initCursor, initPageEffects } from './effects.js';
 
-let isTransitioning = false;
 let scene3d = null;
+let currentSection = null;
 
 // ─────────────────────────────────────────────
 // Input Validation & Sanitization Helpers
@@ -284,100 +284,28 @@ function initBackgroundCanvas() {
 }
 
 // ----------------------------------------------------
-// PPT Page Transition Router
+// Scroll Spy: highlight the nav link for the section in view
+// and tell the 3D scene which section we're in
 // ----------------------------------------------------
-async function navigateTo(url, isPopState = false) {
-    if (isTransitioning) return;
-    isTransitioning = true;
+function initScrollSpy() {
+    const links = document.querySelectorAll('.nav-links a[href^="#"]');
+    const sections = [...document.querySelectorAll('main section[id]')];
+    if (!sections.length) return;
 
-    const mainEl = document.querySelector('main.container');
-    if (!mainEl) {
-        window.location.href = url;
-        return;
-    }
-
-    // Phase 1: Slide Out Left
-    mainEl.classList.add('page-exit');
-
-    try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
-        const html = await response.text();
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        const newMain = doc.querySelector('main.container');
-        const newTitle = doc.title;
-
-        // Ensure slide transition finishes before swapping
-        await new Promise(resolve => setTimeout(resolve, 450));
-
-        if (newMain) {
-            // Push history if not popstate
-            if (!isPopState) {
-                window.history.pushState(null, '', url);
-            }
-            document.title = newTitle;
-
-            // Swap content and layout styling
-            mainEl.innerHTML = newMain.innerHTML;
-            mainEl.className = newMain.className;
-
-            updateNavbarActive(url);
-            if (scene3d) scene3d.setPage(url);
-
-            // Collapse mobile menu if open
-            const navLinks = document.querySelector('.nav-links');
-            const mobileToggle = document.querySelector('.mobile-toggle');
-            if (navLinks && navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
-                if (mobileToggle) {
-                    mobileToggle.innerHTML = '<i data-lucide="menu"></i>';
-                    if (window.lucide) lucide.createIcons();
-                }
-            }
-
-            // Scroll back to top
-            window.scrollTo(0, 0);
-
-            // Phase 2: Slide In Right
-            mainEl.classList.remove('page-exit');
-            mainEl.classList.add('page-enter');
-
-            // Force reflow
-            mainEl.offsetHeight;
-
-            // Trigger enter animation
-            mainEl.classList.remove('page-enter');
-
-            // Re-initialize page scripts
-            initPage();
-        } else {
-            window.location.href = url;
-        }
-    } catch (error) {
-        console.error("Transition Navigation failed:", error);
-        window.location.href = url;
-    } finally {
-        isTransitioning = false;
-    }
-}
-
-function updateNavbarActive(url) {
-    const navLinksList = document.querySelectorAll('.nav-links a');
-    const pathname = new URL(url, window.location.origin).pathname;
-    const filename = pathname.substring(pathname.lastIndexOf('/') + 1) || 'index.html';
-
-    navLinksList.forEach(link => {
-        const linkPathname = new URL(link.href, window.location.origin).pathname;
-        const linkFilename = linkPathname.substring(linkPathname.lastIndexOf('/') + 1) || 'index.html';
-        
-        if (linkFilename === filename) {
-            link.classList.add('active');
-        } else {
-            link.classList.remove('active');
-        }
-    });
+    const update = () => {
+        const line = window.innerHeight * 0.4;
+        let active = sections[0];
+        sections.forEach(sec => {
+            if (sec.getBoundingClientRect().top <= line) active = sec;
+        });
+        if (active.id === currentSection) return;
+        currentSection = active.id;
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === `#${currentSection}`));
+        if (scene3d) scene3d.setSection(currentSection);
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
 }
 
 // Global Setup (run once)
@@ -385,13 +313,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Initialize Page content
     initPage();
 
-    // 2. Preloader + custom cursor
+    // 2. Preloader + custom cursor + scroll spy
+    initScrollSpy();
     initPreloader();
     initCursor();
 
     // 3. 3D WebGL scene (falls back to the 2D particle canvas if WebGL/CDN fails)
     import('./scene3d.js')
-        .then(m => { scene3d = m.initScene3D(); })
+        .then(m => {
+            scene3d = m.initScene3D();
+            if (currentSection) scene3d.setSection(currentSection);
+        })
         .catch(err => {
             console.warn('3D scene unavailable, using 2D fallback:', err);
             initBackgroundCanvas();
@@ -442,25 +374,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 6. Click Interceptor for Transitions
-    document.addEventListener('click', (e) => {
-        const link = e.target.closest('a');
-        if (!link) return;
-
-        const isInternal = link.origin === window.location.origin;
-        const isNotTargetBlank = link.target !== '_blank';
-        const isNotDownload = !link.hasAttribute('download');
-        const isStandardProtocol = ['http:', 'https:'].includes(link.protocol);
-        const isNotBusDetails = !link.pathname.includes('HosurBusDetails.html');
-
-        if (isInternal && isNotTargetBlank && isNotDownload && isStandardProtocol && isNotBusDetails) {
-            e.preventDefault();
-            navigateTo(link.href);
-        }
-    });
-
-    // 7. Popstate Back/Forward Interceptor
-    window.addEventListener('popstate', () => {
-        navigateTo(window.location.href, true);
+    // 6. Close the mobile menu after jumping to a section
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (!navLinks.classList.contains('active')) return;
+            navLinks.classList.remove('active');
+            mobileToggle.innerHTML = '<i data-lucide="menu"></i>';
+            if (window.lucide) lucide.createIcons();
+        });
     });
 });

@@ -2,27 +2,28 @@
 // 3D Background Scene (Three.js)
 // A morphing "robot core" with orbit rings, floating geometry,
 // a starfield and an infinite synth grid. Reacts to mouse,
-// scroll, clicks and page changes.
+// scroll, clicks and which section is in view.
 // ----------------------------------------------------
 import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 
+// Midnight & Gold palette
 const COLORS = {
-    bg: 0x050816,
-    cyan: 0x22d3ee,
-    violet: 0xa78bfa,
-    pink: 0xf472b6,
-    amber: 0xfbbf24,
+    bg: 0x0b1120,
+    gold: 0xd4af37,
+    champagne: 0xf5e6b8,
+    blue: 0x7f9cc9,
+    ivory: 0xf8f4ea,
 };
 
-// Per-page look: which shape the core morphs into, its tint, and where it sits.
+// Per-section look: which shape the core morphs into, its tint, and where it sits.
 // nx / ny are normalized screen coords (-1..1). `anchor` pins the core to a DOM element.
-const PAGE_CONFIG = {
-    'index.html':          { shape: 'ico',    color: COLORS.cyan,   glow: COLORS.violet, anchor: '.profile-frame', nx: 0.45, ny: 0.0,  scale: 1.0 },
-    'about.html':          { shape: 'knot',   color: COLORS.violet, glow: COLORS.cyan,   nx: 0.72, ny: 0.35,  scale: 0.75 },
-    'skills.html':         { shape: 'gear',   color: COLORS.amber,  glow: COLORS.pink,   nx: 0.74, ny: 0.45,  scale: 0.85 },
-    'projects.html':       { shape: 'octa',   color: COLORS.pink,   glow: COLORS.cyan,   nx: 0.75, ny: 0.45,  scale: 0.8 },
-    'certifications.html': { shape: 'dodeca', color: COLORS.violet, glow: COLORS.amber,  nx: 0.72, ny: 0.4,   scale: 0.8 },
-    'contact.html':        { shape: 'torus',  color: COLORS.cyan,   glow: COLORS.pink,   nx: -0.7, ny: -0.45, scale: 0.8 },
+const SECTION_CONFIG = {
+    home:           { shape: 'ico',    color: COLORS.gold, glow: COLORS.champagne,  anchor: '.profile-frame', nx: 0.45, ny: 0.0, scale: 1.0 },
+    about:          { shape: 'knot',   color: COLORS.champagne,  glow: COLORS.gold, nx: 0.72, ny: 0.3,   scale: 0.75 },
+    skills:         { shape: 'gear',   color: COLORS.gold, glow: COLORS.blue,   nx: 0.74, ny: 0.4,   scale: 0.85 },
+    projects:       { shape: 'octa',   color: COLORS.blue,   glow: COLORS.gold, nx: -0.78, ny: 0.35, scale: 0.75 },
+    certifications: { shape: 'dodeca', color: COLORS.champagne,  glow: COLORS.blue,   nx: 0.75, ny: 0.35,  scale: 0.8 },
+    contact:        { shape: 'torus',  color: COLORS.gold, glow: COLORS.champagne,  nx: -0.7, ny: -0.45, scale: 0.8 },
 };
 
 function gearGeometry(teeth = 14, rOuter = 1.35, rInner = 1.08, hole = 0.4, depth = 0.38) {
@@ -74,11 +75,6 @@ function glowTexture() {
     return tex;
 }
 
-function pageKey(url) {
-    const path = new URL(url, window.location.origin).pathname;
-    return path.substring(path.lastIndexOf('/') + 1) || 'index.html';
-}
-
 export function initScene3D() {
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -104,8 +100,8 @@ export function initScene3D() {
     const keyLight = new THREE.DirectionalLight(0xffffff, 0.9);
     keyLight.position.set(4, 6, 8);
     scene.add(keyLight);
-    const lightA = new THREE.PointLight(COLORS.cyan, 40, 30);
-    const lightB = new THREE.PointLight(COLORS.pink, 40, 30);
+    const lightA = new THREE.PointLight(COLORS.gold, 40, 30);
+    const lightB = new THREE.PointLight(COLORS.champagne, 40, 30);
     scene.add(lightA, lightB);
 
     const glowTex = glowTexture();
@@ -118,10 +114,10 @@ export function initScene3D() {
     coreGroup.add(morphGroup);
 
     const solidMat = new THREE.MeshStandardMaterial({
-        color: 0x0b1024, metalness: 0.7, roughness: 0.25, flatShading: true,
-        emissive: COLORS.violet, emissiveIntensity: 0.18, transparent: true, opacity: 0.92,
+        color: 0x141d33, metalness: 0.7, roughness: 0.25, flatShading: true,
+        emissive: COLORS.champagne, emissiveIntensity: 0.18, transparent: true, opacity: 0.92,
     });
-    const edgeMat = new THREE.LineBasicMaterial({ color: COLORS.cyan, transparent: true, opacity: 0.9 });
+    const edgeMat = new THREE.LineBasicMaterial({ color: COLORS.gold, transparent: true, opacity: 0.9 });
     const dotMat = new THREE.PointsMaterial({
         color: 0xffffff, size: 0.12, map: glowTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
     });
@@ -154,7 +150,7 @@ export function initScene3D() {
 
     // Halo glow behind the core
     const halo = new THREE.Sprite(new THREE.SpriteMaterial({
-        map: glowTex, color: COLORS.violet, transparent: true, opacity: 0.35, depthWrite: false, blending: THREE.AdditiveBlending,
+        map: glowTex, color: COLORS.champagne, transparent: true, opacity: 0.35, depthWrite: false, blending: THREE.AdditiveBlending,
     }));
     halo.scale.setScalar(7);
     coreGroup.add(halo);
@@ -162,9 +158,9 @@ export function initScene3D() {
     // Orbit rings with satellites
     const rings = [];
     const ringDefs = [
-        { r: 2.2, color: COLORS.cyan, tilt: [1.2, 0.2, 0], speed: 0.6 },
-        { r: 2.65, color: COLORS.violet, tilt: [1.75, -0.5, 0.4], speed: -0.45 },
-        { r: 3.1, color: COLORS.pink, tilt: [0.5, 0.9, -0.3], speed: 0.32 },
+        { r: 2.2, color: COLORS.gold, tilt: [1.2, 0.2, 0], speed: 0.6 },
+        { r: 2.65, color: COLORS.champagne, tilt: [1.75, -0.5, 0.4], speed: -0.45 },
+        { r: 3.1, color: COLORS.blue, tilt: [0.5, 0.9, -0.3], speed: 0.32 },
     ];
     ringDefs.forEach((d, i) => {
         const pivot = new THREE.Group();
@@ -195,7 +191,7 @@ export function initScene3D() {
         new THREE.TorusGeometry(0.3, 0.1, 10, 28),
         new THREE.IcosahedronGeometry(0.32, 0),
     ];
-    const fieldColors = [COLORS.cyan, COLORS.violet, COLORS.pink, COLORS.amber];
+    const fieldColors = [COLORS.gold, COLORS.champagne, COLORS.blue, COLORS.ivory];
     const floaters = [];
     const floaterCount = isMobile ? 10 : 22;
     for (let i = 0; i < floaterCount; i++) {
@@ -211,14 +207,14 @@ export function initScene3D() {
         const s = 0.6 + Math.random() * 1.2;
         m.scale.setScalar(s);
         field.add(m);
-        floaters.push({ m, baseY: m.position.y, rs: (Math.random() - 0.5) * 0.8, phase: Math.random() * 6, amp: 0.2 + Math.random() * 0.5 });
+        floaters.push({ m, baseY: m.position.y, depth: 0.6 + Math.random() * 0.8, rs: (Math.random() - 0.5) * 0.8, phase: Math.random() * 6, amp: 0.2 + Math.random() * 0.5 });
     }
 
     // ---------- Starfield ----------
     const starCount = isMobile ? 900 : 2000;
     const starPos = new Float32Array(starCount * 3);
     const starCol = new Float32Array(starCount * 3);
-    const palette = [COLORS.cyan, COLORS.violet, COLORS.pink, 0xffffff, 0xffffff].map(c => new THREE.Color(c));
+    const palette = [COLORS.gold, COLORS.champagne, COLORS.ivory, COLORS.ivory, 0xffffff].map(c => new THREE.Color(c));
     for (let i = 0; i < starCount; i++) {
         const r = 18 + Math.random() * 45;
         const theta = Math.random() * Math.PI * 2;
@@ -239,9 +235,9 @@ export function initScene3D() {
     scene.add(stars);
 
     // ---------- Infinite synth grid ----------
-    const grid = new THREE.GridHelper(120, 120, COLORS.violet, COLORS.violet);
+    const grid = new THREE.GridHelper(120, 120, COLORS.gold, COLORS.gold);
     grid.material.transparent = true;
-    grid.material.opacity = 0.35;
+    grid.material.opacity = 0.22;
     // Additive so fogged (dark) far lines fade out instead of darkening the page
     grid.material.blending = THREE.AdditiveBlending;
     grid.material.depthWrite = false;
@@ -252,7 +248,7 @@ export function initScene3D() {
     const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
     let scrollY = window.scrollY;
     let pulse = 0;
-    let config = PAGE_CONFIG[pageKey(location.href)] || PAGE_CONFIG['index.html'];
+    let config = SECTION_CONFIG.home;
     const morph = { active: false, t: 0, next: null, swapped: false };
     const targetPos = new THREE.Vector3();
     let targetScale = config.scale;
@@ -275,6 +271,9 @@ export function initScene3D() {
     }
     window.addEventListener('resize', onResize);
 
+    // Outer orbit ring radius (3.1) plus satellite glow, in core-local units
+    const CORE_RADIUS = 3.4;
+
     // Work out where the core should be in world space (z = 0 plane)
     function computeTarget() {
         const halfH = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
@@ -289,17 +288,29 @@ export function initScene3D() {
             // Size the orbit rings so they wrap around the element
             const worldPerPx = (halfH * 2) / window.innerHeight;
             targetScale = Math.max(0.6, (Math.max(r.height, r.width) * worldPerPx) / 2 / 2.1);
-        } else if (narrow) {
-            targetPos.set(halfW * 0.45, halfH * 0.55 + scrollY * 0.002, -2);
-            targetScale = config.scale * 0.8;
         } else {
-            targetPos.set(config.nx * halfW, config.ny * halfH + scrollY * 0.0015, 0);
-            targetScale = config.scale;
+            let x = narrow ? halfW * 0.45 : config.nx * halfW;
+            let y = narrow ? halfH * 0.3 : config.ny * halfH;
+            let scale = narrow ? config.scale * 0.7 : config.scale;
+
+            // Keep the whole core + orbit rings on screen and below the nav bar
+            const worldPerPx = (halfH * 2) / window.innerHeight;
+            const navH = 100 * worldPerPx;
+            const margin = 0.6; // room for mouse parallax
+            const maxR = Math.min(halfW, halfH - navH / 2) - margin;
+            if (CORE_RADIUS * scale > maxR) scale = maxR / CORE_RADIUS;
+            const r = CORE_RADIUS * scale + margin;
+            x = THREE.MathUtils.clamp(x, -halfW + r, halfW - r);
+            y = THREE.MathUtils.clamp(y, -halfH + r, halfH - navH - r);
+
+            targetPos.set(x, y, 0);
+            targetScale = scale;
         }
     }
 
-    function setPage(url) {
-        const next = PAGE_CONFIG[pageKey(url)] || PAGE_CONFIG['index.html'];
+    function setSection(id) {
+        const next = SECTION_CONFIG[id] || SECTION_CONFIG.home;
+        if (next === config) return;
         config = next;
         tintColor.set(next.color);
         glowColor.set(next.glow);
@@ -375,26 +386,26 @@ export function initScene3D() {
         floaters.forEach(f => {
             f.m.rotation.x += dt * f.rs * speed;
             f.m.rotation.y += dt * f.rs * 0.8 * speed;
-            f.m.position.y = f.baseY + Math.sin(t + f.phase) * f.amp;
+            const y = f.baseY + scrollY * 0.004 * f.depth + Math.sin(t + f.phase) * f.amp;
+            f.m.position.y = ((y + 9) % 18 + 18) % 18 - 9;
         });
         field.rotation.y = mouse.x * 0.12;
         field.rotation.x = -mouse.y * 0.06;
-        field.position.y = scrollY * 0.004;
 
         stars.rotation.y = t * 0.015 + scrollY * 0.0002;
         stars.rotation.x = t * 0.006;
 
         grid.position.z = (t * 1.2) % 1;
+        grid.position.y = -5 - Math.min(scrollY * 0.0006, 1.5);
 
         // Camera parallax + scroll tilt
         camera.position.x += (mouse.x * 0.8 - camera.position.x) * 0.04;
         camera.position.y += (mouse.y * 0.5 - camera.position.y) * 0.04;
         camera.lookAt(0, 0, 0);
-        camera.rotation.x -= Math.min(scrollY * 0.00015, 0.25);
 
         renderer.render(scene, camera);
     }
     animate();
 
-    return { setPage, pulse: () => { pulse = 1; } };
+    return { setSection, pulse: () => { pulse = 1; } };
 }

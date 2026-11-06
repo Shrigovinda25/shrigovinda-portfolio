@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@0.262.0/dist/umd/lucide.min.js" integrity="sha384-+1uhMwdnrxNNvZHrfLRodqU/hkWiEgbyi5OZMsTjQddvnKraBYnC6gbxT0yn7AHd" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -25,14 +25,14 @@
 
     <nav id="navbar">
         <div class="container nav-content">
-            <a href="index.html" class="logo" style="font-family: 'Caveat', cursive; font-size: 2.2rem; letter-spacing: 0;">SHRIGO<span>.</span></a>
+            <a href="#home" class="logo">SHRIGO<span>.</span></a>
             <div class="nav-links">
-                <a href="index.html" class="active">Home</a>
-                <a href="about.html">About</a>
-                <a href="skills.html">Skills</a>
-                <a href="projects.html">Projects</a>
-                <a href="certifications.html">Certs</a>
-                <a href="contact.html">Contact</a>
+                <a href="#home" class="active">Home</a>
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#certifications">Certs</a>
+                <a href="#contact">Contact</a>
             </div>
             <div class="mobile-toggle md-hidden">
                 <i data-lucide="menu"></i>
@@ -41,7 +41,7 @@
     </nav>
 
     <main class="container">
-        <section class="hero page-content reveal">
+        <section id="home" class="hero page-content reveal">
             <div class="hero-grid">
                 <div class="hero-text">
                     <div style="margin-bottom: 2rem;">
@@ -50,9 +50,9 @@
                             Automation & Robotics Engineer | AI + Robotics Developer
                         </span>
                     </div>
-                    <h1 style="font-size: clamp(3.5rem, 10vw, 7.5rem); line-height: 1.2; font-family: 'Caveat', cursive; padding: 0.5rem 0;">
-                        <span class="text-premium" style="display: inline-block; padding: 0 1rem;">Shrigovinda&nbsp;</span><br>
-                        <span class="text-accent-gradient" style="display: inline-block; padding: 0 1rem;">T Kulkarni&nbsp;</span>
+                    <h1 class="hero-name">
+                        <span class="name-first text-premium">Shrigovinda</span>
+                        <span class="name-last text-accent-gradient">T Kulkarni</span>
                     </h1>
                     <p class="hero-typed">I build <span class="typed" data-words="Autonomous Robots|PLC Automation Systems|Computer Vision Pipelines|ROS2 Navigation Stacks|AI-Powered Machines"></span><span class="caret"></span></p>
                     <p style="margin-bottom: 3rem; font-size: 1.2rem; max-width: 650px;">
@@ -62,7 +62,7 @@
                         <a href="assets/Shrigovinda Kulkarni Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn-primary">
                             Download Resume <i data-lucide="download"></i>
                         </a>
-                        <a href="projects.html" class="btn-project" style="padding: 1.25rem 2rem;">
+                        <a href="#projects" class="btn-project" style="padding: 1.25rem 2rem;">
                             View Projects <i data-lucide="arrow-right"></i>
                         </a>
                         <div style="display: flex; gap: 1rem;">
@@ -88,8 +88,859 @@
                 </div>
             </div>
         </section>
+        <!-- ═══ ABOUT ═══ -->
+        <section id="about" class="page-content reveal">
+            <div style="max-width: 900px; margin: 0 auto; width: 100%;">
+                <header style="margin-bottom: 5rem;">
+                    <span style="color: var(--primary); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4em; display: block; margin-bottom: 1rem;">Background</span>
+                    <h2 class="text-premium section-title" style="font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.1; font-weight: 900;">Engineering the<br>Future of Automation.</h2>
+                </header>
 
+                <div class="hero-grid" style="gap: 5rem;">
+                    <div style="font-size: 1.15rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 2rem;">
+                        <p>
+                            I am an **Automation & Robotics Engineering** student at <span style="color: #fff; font-weight: 700;">KLE Technological University (BVB)</span>, Hubballi. My passion lies at the intersection of AI and robotics, where I focus on building intelligent systems that bridge the gap between digital intelligence and physical execution.
+                        </p>
+                        <p>
+                            Whether it's optimizing industrial processes with PLC systems, developing autonomous navigation frameworks with ROS2, or leveraging Generative AI for engineering design, I am dedicated to solving real-world engineering problems with cutting-edge technology.
+                        </p>
 
+                        <div style="margin: 3rem 0;">
+                            <h3 style="font-size: 1.2rem; color: #fff; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                                <i data-lucide="book-open" style="color: var(--primary); width: 20px;"></i> Currently Learning
+                            </h3>
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div class="glass-slab" style="padding: 1rem; border-left: 2px solid var(--primary);">
+                                    <h4 style="color: #fff; font-size: 0.9rem; margin-bottom: 0.25rem;">Intermediate C++</h4>
+                                    <p style="font-size: 0.75rem; color: var(--text-muted);">Mastering OOP principles, design patterns, and memory management for robotics applications.</p>
+                                </div>
+                                <div class="glass-slab" style="padding: 1rem; border-left: 2px solid var(--secondary);">
+                                    <h4 style="color: #fff; font-size: 0.9rem; margin-bottom: 0.25rem;">ROS 2</h4>
+                                    <p style="font-size: 0.75rem; color: var(--text-muted);">Deepening knowledge of robot navigation nodes, communications, and autonomous behavior frameworks.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <h3 style="font-size: 1.2rem; color: #fff; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                            <i data-lucide="milestone" style="color: var(--secondary); width: 20px;"></i> Experience & Education
+                        </h3>
+                        <div class="glass-slab" style="padding: 1.5rem; border-left: 2px solid var(--secondary);">
+                            <span style="font-family: monospace; font-size: 0.8rem; color: var(--secondary);">2023 - 2027 (Expected)</span>
+                            <h4 style="color: #fff; margin: 0.5rem 0;">B.E. Automation & Robotics</h4>
+                            <p style="color: var(--text-muted); font-size: 0.85rem;">KLE Technological University (BVB), Hubballi</p>
+                            <p style="color: var(--primary); font-weight: 700; font-size: 0.9rem; margin-top: 0.5rem;">CGPA: 9.25</p>
+                        </div>
+                        <div class="glass-slab" style="padding: 1.5rem; border-left: 2px solid var(--accent);">
+                            <span style="font-family: monospace; font-size: 0.8rem; color: var(--accent);">2021 - 2023</span>
+                            <h4 style="color: #fff; margin: 0.5rem 0;">Pre-University (PUC)</h4>
+                            <p style="color: var(--text-muted); font-size: 0.85rem;">JSS RSH PU College</p>
+                            <p style="color: var(--primary); font-weight: 700; font-size: 0.9rem; margin-top: 0.5rem;">Grade: 90.33%</p>
+                        </div>
+                        <div class="glass-slab" style="padding: 1.5rem; border-left: 2px solid var(--primary);">
+                            <span style="font-family: monospace; font-size: 0.8rem; color: var(--primary);">2021</span>
+                            <h4 style="color: #fff; margin: 0.5rem 0;">Secondary Education (SSLC)</h4>
+                            <p style="color: var(--text-muted); font-size: 0.85rem;">Navanagar Rotary English Medium School</p>
+                            <p style="color: var(--primary); font-weight: 700; font-size: 0.9rem; margin-top: 0.5rem;">Grade: 90.08%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-slab" style="margin-top: 5rem; border-left: 4px solid var(--primary); display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; text-align: center;">
+                    <div>
+                        <p style="font-size: 2.5rem; font-weight: 900; color: #fff;" data-count="95" data-suffix="%">95%</p>
+                        <p style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 0.1em;">Practical Engineering</p>
+                    </div>
+                    <div>
+                        <p style="font-size: 2.5rem; font-weight: 900; color: #fff;" data-count="90" data-suffix="%">90%</p>
+                        <p style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 0.1em;">System Optimization</p>
+                    </div>
+                    <div>
+                        <p style="font-size: 2.5rem; font-weight: 900; color: #fff;" data-count="85" data-suffix="%">85%</p>
+                        <p style="font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 0.1em;">AI Integration</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ═══ SKILLS ═══ -->
+        <section id="skills" class="page-content reveal">
+            <header style="text-align: center; margin-bottom: 5rem;">
+                <span style="color: var(--primary); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4em; display: block; margin-bottom: 1rem;">Expertise</span>
+                <h2 class="text-premium section-title" style="font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; font-weight: 900;">Technical Arsenal.</h2>
+            </header>
+
+            <div class="grid-cards reveal-stagger">
+                <!-- Programming -->
+                <div class="glass-slab" style="border-top: 2px solid var(--primary); display: flex; flex-direction: column; gap: 2rem;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 1rem; width: fit-content;">
+                        <i data-lucide="code-2" style="color: var(--primary);"></i>
+                    </div>
+                    <h3 style="font-size: 1.5rem; color: #fff;">Programming</h3>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem; color: var(--text-muted);">
+                        <li style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 6px; height: 6px; background: var(--primary); border-radius: 50%;"></span> C / C++</li>
+                        <li style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 6px; height: 6px; background: var(--primary); border-radius: 50%;"></span> Python (Data Science)</li>
+                        <li style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 6px; height: 6px; background: var(--primary); border-radius: 50%;"></span> JavaScript (Node.js)</li>
+                        <li style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 6px; height: 6px; background: var(--primary); border-radius: 50%;"></span> SQL / DBMS</li>
+                    </ul>
+                </div>
+
+                <!-- Robotics & Automation -->
+                <div class="glass-slab" style="border-top: 2px solid var(--secondary); display: flex; flex-direction: column; gap: 2rem;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 1rem; width: fit-content;">
+                        <i data-lucide="cpu" style="color: var(--secondary);"></i>
+                    </div>
+                    <h3 style="font-size: 1.5rem; color: #fff;">Robotics & Automation</h3>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem; color: var(--text-muted);">
+                        <li style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 6px; height: 6px; background: var(--secondary); border-radius: 50%;"></span> ROS2 (Robot Operating System)</li>
+                        <li style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 6px; height: 6px; background: var(--secondary); border-radius: 50%;"></span> PLC (Automation Studio / Bosch)</li>
+                        <li style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 6px; height: 6px; background: var(--secondary); border-radius: 50%;"></span> Arduino & Microcontrollers</li>
+                        <li style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 6px; height: 6px; background: var(--secondary); border-radius: 50%;"></span> Sensors & Data Acquisition</li>
+                    </ul>
+                </div>
+
+                <!-- AI / ML -->
+                <div class="glass-slab" style="border-top: 2px solid var(--accent); display: flex; flex-direction: column; gap: 2rem;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 1rem; width: fit-content;">
+                        <i data-lucide="brain-circuit" style="color: var(--accent);"></i>
+                    </div>
+                    <h3 style="font-size: 1.5rem; color: #fff;">AI / ML</h3>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem; color: var(--text-muted);">
+                        <li style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 6px; height: 6px; background: var(--accent); border-radius: 50%;"></span> Computer Vision (OpenCV)</li>
+                        <li style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 6px; height: 6px; background: var(--accent); border-radius: 50%;"></span> Generative AI (LLMs & Stable Diffusion)</li>
+                        <li style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 6px; height: 6px; background: var(--accent); border-radius: 50%;"></span> Hugging Face Transformers</li>
+                        <li style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 6px; height: 6px; background: var(--accent); border-radius: 50%;"></span> Deep Learning & NLP</li>
+                    </ul>
+                </div>
+
+                <!-- Tools & Software -->
+                <div class="glass-slab" style="border-top: 2px solid var(--warm); display: flex; flex-direction: column; gap: 2rem;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 1rem; width: fit-content;">
+                        <i data-lucide="wrench" style="color: var(--warm);"></i>
+                    </div>
+                    <h3 style="font-size: 1.5rem; color: #fff;">Tools & Software</h3>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem; color: var(--text-muted);">
+                        <li style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 6px; height: 6px; background: var(--warm); border-radius: 50%;"></span> Git / GitHub</li>
+                        <li style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 6px; height: 6px; background: var(--warm); border-radius: 50%;"></span> MATLAB & Simulink</li>
+                        <li style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 6px; height: 6px; background: var(--warm); border-radius: 50%;"></span> SolidWorks / CAD</li>
+                        <li style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 6px; height: 6px; background: var(--warm); border-radius: 50%;"></span> HTML5 / CSS3</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- ═══ PROJECTS ═══ -->
+        <section id="projects" class="page-content reveal">
+            <header style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: clamp(2rem, 5vw, 4rem); flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <span
+                        style="color: var(--primary); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4em; display: block; margin-bottom: 1rem;">Portfolio</span>
+                    <h2 class="text-premium section-title" style="font-size: clamp(2.2rem, 6vw, 4.5rem); font-weight: 900;">Featured
+                        Work.</h2>
+                </div>
+            </header>
+
+            <div class="grid-cards reveal-stagger" style="gap: 4rem;">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-img" style="background: none; padding: 0; overflow: hidden;">
+                        <img src="assets/Development and Performance Validation of an Outdoor Autonomous Navigation Framework for UGV.jpg"
+                            alt="Outdoor Autonomous Navigation Framework for UGV"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 0 1rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span
+                                style="color: var(--primary); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em;">Robotics</span>
+                        </div>
+                        <h3 style="font-size: 2rem; font-weight: 900; color: #fff; margin-bottom: 1rem;">Development and
+                            Performance Validation of an Outdoor Autonomous Navigation Framework for UGV</h3>
+                        <div style="margin-bottom: 2rem;">
+                            <p
+                                style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">
+                                <strong style="color: #fff;">Problem:</strong> Designing a reliable outdoor navigation
+                                system for UGVs in unstructured terrain.<br>
+                                <strong style="color: #fff;">Role:</strong> Led development, built the dashboard and path planning.<br>
+                                <strong style="color: #fff;">Result:</strong> Achieved sub-decimeter localization
+                                accuracy using EKF-based sensor fusion.
+                            </p>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem;">
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">ROS2
+                                Humble</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">SLAM
+                                Toolbox</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Nav2</span>
+                        </div>
+                        <a href="https://minor-project-team13.netlify.app/" target="_blank" rel="noopener noreferrer" class="btn-project">
+                            View Project <i data-lucide="external-link"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-img" style="background: none; padding: 0; overflow: hidden;">
+                        <img src="assets/HydroHive – Smart Terrace Watering System.jpg"
+                            alt="HydroHive – Smart Terrace Watering System"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 0 1rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span
+                                style="color: var(--accent); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em;">IoT</span>
+                        </div>
+                        <h3 style="font-size: 2rem; font-weight: 900; color: #fff; margin-bottom: 1rem;">HydroHive –
+                            Smart Terrace Watering System</h3>
+                        <div style="margin-bottom: 2rem;">
+                            <p
+                                style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">
+                                <strong style="color: #fff;">Problem:</strong> Manual garden maintenance leads to high
+                                water wastage and inconsistent plant health.<br>
+                                <strong style="color: #fff;">Role:</strong> Hardware, control logic and dashboard.<br>
+                                <strong style="color: #fff;">Result:</strong> Reduced water usage by 40% via
+                                soil-moisture-triggered automation.
+                            </p>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem;">
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Raspberry
+                                Pi 5</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">HTTPS</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Sensors</span>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                            <a href="https://sites.google.com/view/team-02-arise/home?authuser=0" target="_blank" rel="noopener noreferrer"
+                                class="btn-project">
+                                View Project <i data-lucide="external-link"></i>
+                            </a>
+                            <a href="assets/HydroHive – Smart Terrace Watering System Report.pdf" download
+                                class="btn-project" style="background: rgba(127, 156, 201, 0.1);">
+                                Report <i data-lucide="download"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="project-img" style="background: none; padding: 0; overflow: hidden;">
+                        <img src="assets/Autonomous Tunnel Inspection Robot - MATLAB Virtual Simulation.png"
+                            alt="Autonomous Tunnel Inspection Robot - MATLAB Virtual Simulation"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 0 1rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span
+                                style="color: var(--secondary); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em;">Simulation</span>
+                        </div>
+                        <h3 style="font-size: 2rem; font-weight: 900; color: #fff; margin-bottom: 1rem;">Autonomous
+                            Tunnel Inspection Robot - MATLAB Virtual Simulation</h3>
+                        <div style="margin-bottom: 2rem;">
+                            <p
+                                style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">
+                                <strong style="color: #fff;">Problem:</strong> Safe inspection of hazardous tunnel
+                                environments without human risk.<br>
+                                <strong style="color: #fff;">Role:</strong> Simulation & Algorithm for safe tunnel
+                                inspection.<br>
+                                <strong style="color: #fff;">Result:</strong> Validated autonomous obstacle avoidance
+                                and path planning in high-fidelity 3D environments.
+                            </p>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem;">
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">MATLAB</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Simulink</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Robotics
+                                Toolbox</span>
+                        </div>
+                        <a href="assets/Autonomous Tunnel Inspection Robot – MATLAB Virtual Simulation Report.pdf"
+                            download class="btn-project" style="background: rgba(245, 230, 184, 0.1);">
+                            Report <i data-lucide="download"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card">
+                    <div class="project-img" style="background: none; padding: 0; overflow: hidden;">
+                        <img src="assets/BuildVerse.png" alt="BuildVerse Website"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 0 1rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span
+                                style="color: var(--primary); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em;">Event
+                                Tech</span>
+                        </div>
+                        <h3 style="font-size: 2rem; font-weight: 900; color: #fff; margin-bottom: 1rem;">BuildVerse</h3>
+                        <div style="margin-bottom: 2rem;">
+                            <p
+                                style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">
+                                <strong style="color: #fff;">Problem:</strong> Centralized platform needed for real-time
+                                hackathon management and team assessment.<br>
+                                <strong style="color: #fff;">Role:</strong> Full-Stack Developer (Built with GenAI).<br>
+                                <strong style="color: #fff;">Result:</strong> Successfully managed data for 100+
+                                participants with zero downtime, built end-to-end leveraging GenAI.
+                            </p>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem;">
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">HTML</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">CSS</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">JavaScript</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Node.js</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Firebase</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid rgba(245, 230, 184, 0.4); background: rgba(245, 230, 184, 0.1); color: var(--secondary); padding: 0.25rem 0.75rem; border-radius: 4px;">GenAI</span>
+                        </div>
+                        <a href="https://buildverse-mu.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn-project">
+                            View Project <i data-lucide="external-link"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="project-card">
+                    <div class="project-img" style="background: none; padding: 0; overflow: hidden;">
+                        <img src="assets/Single Axis Solar Tracking System.png" alt="Single Axis Solar Tracking System"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 0 1rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span
+                                style="color: var(--secondary); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em;">Embedded
+                                Systems</span>
+                        </div>
+                        <h3 style="font-size: 2rem; font-weight: 900; color: #fff; margin-bottom: 1rem;">Single Axis
+                            Solar Tracking System</h3>
+                        <div style="margin-bottom: 2rem;">
+                            <p
+                                style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">
+                                <strong style="color: #fff;">Problem:</strong> Static solar panels lose significant
+                                energy yield due to fixed orientation throughout the day.<br>
+                                <strong style="color: #fff;">Role:</strong> Hardware Designer & Embedded Developer.<br>
+                                <strong style="color: #fff;">Result:</strong> Increased solar energy capture efficiency
+                                using LDR-based feedback control with servo actuation.
+                            </p>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem;">
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">ESP32</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">LDR
+                                Sensors</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Servo
+                                Motor</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">PID
+                                Control</span>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                            <a href="assets/Single Axis Solar Tracking System.pdf" download class="btn-project"
+                                style="background: rgba(245, 230, 184, 0.1);">
+                                Report <i data-lucide="download"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="project-card">
+                    <div class="project-img" style="background: none; padding: 0; overflow: hidden;">
+                        <img src="assets/Multichannel Analog Signal Mixer.jpeg" alt="Multichannel Analog Signal Mixer"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 0 1rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span
+                                style="color: var(--primary); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em;">Electronics</span>
+                        </div>
+                        <h3 style="font-size: 2rem; font-weight: 900; color: #fff; margin-bottom: 1rem;">Multichannel
+                            Analog Signal Mixer</h3>
+                        <div style="margin-bottom: 2rem;">
+                            <p
+                                style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">
+                                <strong style="color: #fff;">Problem:</strong> Combining multiple analog audio/signal
+                                channels without noise, distortion, or impedance mismatch.<br>
+                                <strong style="color: #fff;">Role:</strong> Circuit Designer & Signal Processing
+                                Engineer.<br>
+                                <strong style="color: #fff;">Result:</strong> Designed a low-noise op-amp based
+                                multichannel summing mixer with independent gain control per channel.
+                            </p>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem;">
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Op-Amp</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Analog
+                                Circuits</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Signal
+                                Processing</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">PCB
+                                Design</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 7 -->
+                <div class="project-card">
+                    <div class="project-img" style="background: none; padding: 0; overflow: hidden;">
+                        <img src="assets/Self Balancing Robot.jpeg" alt="Self Balancing Robot"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 0 1rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span
+                                style="color: var(--secondary); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em;">Robotics</span>
+                        </div>
+                        <h3 style="font-size: 2rem; font-weight: 900; color: #fff; margin-bottom: 1rem;">Self Balancing
+                            Robot</h3>
+                        <div style="margin-bottom: 2rem;">
+                            <p
+                                style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">
+                                <strong style="color: #fff;">Problem:</strong> Maintaining dynamic equilibrium of an
+                                inherently unstable two-wheeled inverted pendulum robot.<br>
+                                <strong style="color: #fff;">Role:</strong> Controls Engineer & Hardware Integrator.<br>
+                                <strong style="color: #fff;">Result:</strong> Implemented real-time PID balance control
+                                using IMU feedback achieving stable upright locomotion.
+                            </p>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem;">
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">ESP32</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">MPU-6050
+                                IMU</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">PID
+                                Control</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">DC
+                                Motors</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 8 -->
+                <div class="project-card">
+                    <div class="project-img" style="background: none; padding: 0; overflow: hidden;">
+                        <img src="assets/Lack of Information in Bus Stands.png" alt="Lack of Information in Bus Stands"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 0 1rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span
+                                style="color: var(--accent); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em;">Web
+                                App</span>
+                        </div>
+                        <h3 style="font-size: 2rem; font-weight: 900; color: #fff; margin-bottom: 1rem;">Lack of
+                            Information in Bus Stands</h3>
+                        <div style="margin-bottom: 2rem;">
+                            <p
+                                style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">
+                                <strong style="color: #fff;">Problem:</strong> Commuters at bus stands have no easy way
+                                to know which platform their bus departs from or when it arrives, causing confusion and
+                                missed buses.<br>
+                                <strong style="color: #fff;">Role:</strong> Full Stack Web Developer.<br>
+                                <strong style="color: #fff;">Result:</strong> Built a web application where users enter
+                                their destination and instantly see the bus platform number, scheduled timings, and live
+                                status — effectively solving the information gap at bus stands.
+                            </p>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem;">
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">HTML/CSS/JS</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Real-Time
+                                Data</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Search
+                                UI</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Public
+                                Transit</span>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                            <a href="HosurBusDetails.html" target="_blank" rel="noopener noreferrer" class="btn-project">
+                                View Project <i data-lucide="external-link"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 9 -->
+                <div class="project-card">
+                    <div class="project-img" style="background: none; padding: 0; overflow: hidden;">
+                        <img src="assets/Real-Time Adaptability of Robots to Dynamic Production Conditions.png" alt="Real-Time Adaptability of Robots to Dynamic Production Conditions"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 0 1rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span
+                                style="color: var(--accent); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em;">Robotics
+                                & AI</span>
+                        </div>
+                        <h3 style="font-size: 2rem; font-weight: 900; color: #fff; margin-bottom: 1rem;">Real-Time
+                            Adaptability of Robots to Dynamic Production Conditions</h3>
+                        <div style="margin-bottom: 2rem;">
+                            <p
+                                style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">
+                                <strong style="color: #fff;">Problem:</strong> Industrial robots fail to adapt in real
+                                time to unexpected changes in production environments, causing downtime.<br>
+                                <strong style="color: #fff;">Role:</strong> Research Contributor & Systems Analyst.<br>
+                                <strong style="color: #fff;">Result:</strong> Explored adaptive control architectures
+                                enabling robots to re-plan and reconfigure autonomously under dynamic conditions.
+                            </p>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem;">
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Adaptive
+                                Control</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Industrial
+                                Robotics</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">AI
+                                Planning</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">ROS2</span>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                            <a href="assets/RealTime Adaptability of Robots to Dynamic Production Conditions.pdf"
+                                download class="btn-project" style="background: rgba(127, 156, 201, 0.1);">
+                                Report <i data-lucide="download"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 10 -->
+                <div class="project-card">
+                    <div class="project-img" style="background: none; padding: 0; overflow: hidden;">
+                        <img src="assets/Person Following Robot.png" alt="Person Following Robot"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 0 1rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span
+                                style="color: var(--primary); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em;">Robotics</span>
+                        </div>
+                        <h3 style="font-size: 2rem; font-weight: 900; color: #fff; margin-bottom: 1rem;">Person
+                            Following Robot</h3>
+                        <div style="margin-bottom: 2rem;">
+                            <p
+                                style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">
+                                <strong style="color: #fff;">Problem:</strong> Autonomous robots lack reliable
+                                human-following capability in cluttered or dynamic indoor environments.<br>
+                                <strong style="color: #fff;">Role:</strong> ROS2 Developer & Computer Vision
+                                Engineer.<br>
+                                <strong style="color: #fff;">Result:</strong> Built a real-time person-detection and
+                                tracking pipeline using depth cameras and ROS2 Nav2, enabling smooth human-following
+                                behavior.
+                            </p>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem;">
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">ROS2</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">OpenCV</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Depth
+                                Camera</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Nav2</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Python</span>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                            <a href="assets/Person Following Robot.pdf" download class="btn-project"
+                                style="background: rgba(212, 175, 55, 0.1);">
+                                Report <i data-lucide="download"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 11 -->
+                <div class="project-card">
+                    <div class="project-img" style="background: none; padding: 0; overflow: hidden;">
+                        <img src="assets/Simulation and PLCBased Control of a WeightBased Conveyor Sorting System Using Factory IO and.png" alt="Simulation and PLC-Based Control of a Weight-Based Conveyor Sorting System"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 0 1rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span
+                                style="color: var(--primary); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em;">Automation
+                                & PLC</span>
+                        </div>
+                        <h3 style="font-size: 2rem; font-weight: 900; color: #fff; margin-bottom: 1rem;">Simulation and
+                            PLC-Based Control of a Weight-Based Conveyor Sorting System</h3>
+                        <div style="margin-bottom: 2rem;">
+                            <p
+                                style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">
+                                <strong style="color: #fff;">Problem:</strong> Manual sorting of items by weight on
+                                conveyor lines is slow, error-prone, and lacks scalability.<br>
+                                <strong style="color: #fff;">Role:</strong> PLC Programmer & Simulation Engineer.<br>
+                                <strong style="color: #fff;">Result:</strong> Designed and validated a fully automated
+                                weight-based sorting system using Factory I/O simulation and CODESYS ladder logic with
+                                100% sort accuracy in testing.
+                            </p>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem;">
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">CODESYS</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Factory
+                                I/O</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">PLC</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Ladder
+                                Logic</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Automation</span>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                            <a href="assets/Simulation and PLCBased Control of a WeightBased Conveyor Sorting System.pdf" download class="btn-project"
+                                style="background: rgba(212, 175, 55, 0.1);">
+                                Report <i data-lucide="download"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 12 -->
+                <div class="project-card">
+                    <div class="project-img" style="background: none; padding: 0; overflow: hidden;">
+                        <img src="assets/Can Crusher.jpeg" alt="Automatic Can Crusher Machine"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 0 1rem;">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <span
+                                style="color: var(--accent); font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em;">Mechatronics / Embedded Systems</span>
+                        </div>
+                        <h3 style="font-size: 2rem; font-weight: 900; color: #fff; margin-bottom: 1rem;">Automatic Can Crusher Machine</h3>
+                        <div style="margin-bottom: 2rem;">
+                            <p
+                                style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">
+                                <strong style="color: #fff;">Problem:</strong> Manual disposal and volume reduction of beverage cans is labor-intensive, inefficient, and occupies significant storage space.<br>
+                                <strong style="color: #fff;">Role:</strong> Control Systems & Embedded Developer.<br>
+                                <strong style="color: #fff;">Result:</strong> Developed a functional mechatronic prototype capable of crushing 250ml cans at a rate of 2+ cans per minute using an automated sensor-actuator loop, fitting within compact dimensions (1.5' × 1.5' × 1.5') and a ₹5,000 budget.
+                            </p>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem;">
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Arduino</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">IR Sensors</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">DC Motor</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">Relay Module</span>
+                            <span
+                                style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 4px;">LED Indicators</span>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                            <a href="https://github.com/A-Division-2023-24-Odd/Repo-01/wiki" target="_blank" rel="noopener noreferrer" class="btn-project">
+                                Project Wiki <i data-lucide="external-link"></i>
+                            </a>
+                            <a href="https://github.com/A-Division-2023-24-Odd/Repo-01" target="_blank" rel="noopener noreferrer" class="btn-project" style="background: rgba(127, 156, 201, 0.1);">
+                                Repository <i data-lucide="github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <!-- ═══ CERTIFICATIONS ═══ -->
+        <section id="certifications" class="page-content reveal">
+            <header style="margin-bottom: 5rem;">
+                <span style="color: var(--secondary); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4em; display: block; margin-bottom: 1rem;">Achievements</span>
+                <h2 class="text-premium section-title" style="font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900;">Certs & Activities.</h2>
+            </header>
+
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div class="glass-slab" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 2rem;">
+                        <div style="background: rgba(245, 230, 184, 0.1); padding: 1.25rem; border-radius: 1.5rem; color: var(--secondary);">
+                            <i data-lucide="award"></i>
+                        </div>
+                        <div>
+                            <h3 style="font-size: 1.5rem; color: #fff;">Python for Data Science (beginner)</h3>
+                            <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">Certification</p>
+                        </div>
+                    </div>
+                    <span style="font-family: monospace; color: var(--text-muted); opacity: 0.5;">2025</span>
+                </div>
+
+                <div class="glass-slab" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 2rem;">
+                        <div style="background: rgba(245, 230, 184, 0.1); padding: 1.25rem; border-radius: 1.5rem; color: var(--secondary);">
+                            <i data-lucide="zap"></i>
+                        </div>
+                        <div>
+                            <h3 style="font-size: 1.5rem; color: #fff;">ROS2 Workshop</h3>
+                            <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">Technical Workshop</p>
+                        </div>
+                    </div>
+                    <span style="font-family: monospace; color: var(--text-muted); opacity: 0.5;">2025</span>
+                </div>
+
+                <div class="glass-slab" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 2rem;">
+                        <div style="background: rgba(245, 230, 184, 0.1); padding: 1.25rem; border-radius: 1.5rem; color: var(--secondary);">
+                            <i data-lucide="trophy"></i>
+                        </div>
+                        <div>
+                            <h3 style="font-size: 1.5rem; color: #fff;">Smart India Hackathon</h3>
+                            <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">National Level Competition</p>
+                        </div>
+                    </div>
+                    <span style="font-family: monospace; color: var(--text-muted); opacity: 0.5;">2025</span>
+                </div>
+
+                <div class="glass-slab" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 2rem;">
+                        <div style="background: rgba(245, 230, 184, 0.1); padding: 1.25rem; border-radius: 1.5rem; color: var(--secondary);">
+                            <i data-lucide="users"></i>
+                        </div>
+                        <div>
+                            <h3 style="font-size: 1.5rem; color: #fff;">IASF 2025</h3>
+                            <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">International Aero Space Forum</p>
+                        </div>
+                    </div>
+                    <span style="font-family: monospace; color: var(--text-muted); opacity: 0.5;">2025</span>
+                </div>
+
+                <div class="glass-slab" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 2rem;">
+                        <div style="background: rgba(245, 230, 184, 0.1); padding: 1.25rem; border-radius: 1.5rem; color: var(--secondary);">
+                            <i data-lucide="award"></i>
+                        </div>
+                        <div>
+                            <h3 style="font-size: 1.5rem; color: #fff;">MGIRED Technical Competition</h3>
+                            <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">State Level Competition</p>
+                        </div>
+                    </div>
+                    <span style="font-family: monospace; color: var(--text-muted); opacity: 0.5;">2026</span>
+                </div>
+
+                <div class="glass-slab" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 2rem;">
+                        <div style="background: rgba(245, 230, 184, 0.1); padding: 1.25rem; border-radius: 1.5rem; color: var(--secondary);">
+                            <i data-lucide="medal"></i>
+                        </div>
+                        <div>
+                            <h3 style="font-size: 1.5rem; color: #fff;">Squash Interdepartment second place</h3>
+                            <p style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">Sports Achievement</p>
+                        </div>
+                    </div>
+                    <span style="font-family: monospace; color: var(--text-muted); opacity: 0.5;">2026</span>
+                </div>
+            </div>
+        </section>
+        <!-- ═══ CONTACT ═══ -->
+        <section id="contact" class="page-content reveal">
+            <div class="contact-grid">
+                <div>
+                    <header style="margin-bottom: 4rem;">
+                        <span style="color: var(--accent); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4em; display: block; margin-bottom: 1rem;">Inquiry</span>
+                        <h2 class="text-premium section-title" style="font-size: clamp(3rem, 7vw, 5rem); font-weight: 900; line-height: 1;">Get in<br>Touch.</h2>
+                    </header>
+
+                    <div style="display: flex; flex-direction: column; gap: 3rem;">
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 1.25rem; border: 1px solid var(--border);">
+                                <i data-lucide="mail" style="color: var(--primary);"></i>
+                            </div>
+                            <div>
+                                <p style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase;">Email</p>
+                                <a href="mailto:shrigovindak@gmail.com" style="font-size: 1.15rem; color: #fff; font-weight: 600; text-decoration: none;">shrigovindak@gmail.com</a>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 1.25rem; border: 1px solid var(--border);">
+                                <i data-lucide="linkedin" style="color: var(--secondary);"></i>
+                            </div>
+                            <div>
+                                <p style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase;">LinkedIn</p>
+                                <a href="https://www.linkedin.com/in/shrigovinda-kulkarni-299399284/" target="_blank" rel="noopener noreferrer" style="font-size: 1.15rem; color: #fff; font-weight: 600; text-decoration: none;">Shrigovinda T Kulkarni</a>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 1.25rem; border: 1px solid var(--border);">
+                                <i data-lucide="phone" style="color: var(--accent);"></i>
+                            </div>
+                            <div>
+                                <p style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase;">Phone</p>
+                                <p style="font-size: 1.15rem; color: #fff; font-weight: 600;">+91 8618104226</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1.5rem;">
+                            <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 1.25rem; border: 1px solid var(--border);">
+                                <i data-lucide="instagram" style="color: #e4405f;"></i>
+                            </div>
+                            <div>
+                                <p style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase;">Instagram</p>
+                                <a href="https://www.instagram.com/shrigovinda_/" target="_blank" rel="noopener noreferrer" style="font-size: 1.15rem; color: #fff; font-weight: 600; text-decoration: none;">@shrigovinda_</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-slab reveal">
+                    <form id="contact-form" style="display: flex; flex-direction: column; gap: 2rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" placeholder="Full Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" placeholder="email@example.com" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea name="message" rows="6" placeholder="Tell me about your project..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary" style="justify-content: center; width: 100%;">
+                            Send Message <i data-lucide="send"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer class="container">
